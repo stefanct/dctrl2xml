@@ -24,6 +24,7 @@ import re
 import bz2
 import gzip
 import optparse
+import types
 
 __author__ = 'Frank S. Thomas'
 __version__ = '$Revision$'
@@ -31,19 +32,57 @@ __version__ = '$Revision$'
 
 class DebianControlParser:
 
-    def __init__(self, pkg_str=''):
+    def __init__(self):
         self.contacts = ['maintainer', 'changed-by', 'uploaders']
         self.relations = ['depends', 'pre-depends', 'suggests', 'recommends',
             'conflicts', 'provides', 'replaces', 'enhances', 'build-depends',
             'build-depends-indep', 'build-conflicts']
+       
+
+    def ParsePackageString(self, pkg_str):
+        self.pkg = {}
+        text = {}
         
-        if pkg_str != '':
-            self._pkg_parse(pkg_str)
-    
-    #def ParsePackageString(self, pkg_str):
-    #    return
+        for line in pkg_str.split('\n'):
+            if not line:
+                break
+            if line[0] == ' ' and field:
+                if text.has_key(field):
+                    text[field] += line + '\n'
+                else:
+                    text[field] = line + '\n'
+            else:
+                colon = line.find(':')
+                field = line[:colon].lower()
+                value = line[colon+1:].lstrip()
+                
+                self.pkg[field] = value
+
+        self.pkg['name'] = None
+        self.pkg['upstream'] = None
+        self.pkg['long-description'] = None
+
+        for field in self.pkg:
+            if field in self.contacts:
+                self.pkg[field] = self.ParseContacts(self.pkg[field])
+                
+            elif field in self.relations:
+                self.pkg[field] = self.ParseRelations(self.pkg[field])
+                
+            elif field == 'package':
+                self.pkg['name'] = self.pkg[field]
+                self.pkg[field] = None
+                        
+            elif field == 'files':
+                self.pkg[field] = self.ParseFileList(text[field])
+            
+            elif field == 'description':
+                self.pkg['upstream'] = self.ParseDescription(text[field])     
+                self.pkg['long-description'] = text[field]
         
-        
+        return self.pkg
+
+
     def ParseContacts(self, contacts_str):
         contacts_list = []
         
@@ -58,23 +97,39 @@ class DebianControlParser:
         return contacts_list
         
         
-    #def ParseFileList(self, files_str):
-    #    return
+    def ParseFileList(self, files_str):
+        files = {}
+        files_re = {'dsc': '.*\.dsc',
+            'diff': '.*\.diff\.gz',
+            'orig': '.*\.orig\.tar\.(gz|bz2)'}
         
-        
+        for line in re.finditer(r' ([\da-f]{32}.*)', files_str):
+            attrs = line.group(1).split()
+            for file_type, file_re in files_re.iteritems():
+                if re.search(file_re, attrs[2]):
+                    files[file_type] = {}
+                    files[file_type]['md5sum'] = attrs[0]
+                    files[file_type]['size'] = attrs[1]
+                    files[file_type]['filename'] = attrs[2]
+                    
+        return files
+
+
     def ParseDescription(self, desc_str):
+        upstream = {}
         upstream_re = r'.*^ (Author|Homepage):\s*(.*)$'
         it = re.compile(upstream_re, re.M+re.S).finditer(desc_str)
-        
+              
         for match in it:
             if match.group(1) == 'Author':
-                self.pkg['author'] = self.ParseContacts(match.group(2))
-            elif match.group(1) == 'Homepage'
-                self.pkg['homepage'] = match.group(2)
-        
-        self.pkg['long-description'] = desc_str
-        
-        
+                upstream['author'] = self.ParseContacts(match.group(2))
+                
+            elif match.group(1) == 'Homepage':
+                upstream['homepage'] = match.group(2)
+                
+        return upstream
+
+
     def ParseRelations(self, relations_str):
         relations_list = []
         
@@ -96,10 +151,12 @@ class DebianControlParser:
         match = re.match(relation_re, relation_str.strip())
         if match:
             if match.group(1):
-                relation['name'] = match.group(1)
+            
+                relation['name'] = match.group(1)       
             if match.group(2):
                 relation['relation'] = match.group(3)
                 relation['version'] = match.group(4)
+                        
             if match.group(6):
                 archs = match.group(6).split()
                 arch_list = filter(lambda arch: arch[0] != '!', archs)
@@ -113,15 +170,61 @@ class DebianControlParser:
         return {'package': relation}
 
 
+class DebianControl2XMLConverter:
+
+    def __init__(self, out):
+        self.out = out
+                
+    def CreateXMLTree(self, pkg):
+             
+        for name, value in pkg.iteritems():
+            self.createNode(name, value)            
+             
+    def createNode(self, name, value):
+    
+        if type(value) is types.StringType:
+            self.startElement(name)
+            self.text(value)
+            self.endElement(name)
+            
+        elif type(value) is types.DictType:
+            self.startElement(name)
+            for new_name in value:
+                self.createNode(new_name, value[new_name])           
+            self.endElement(name)
+                
+        elif type(value) is types.ListType:
+            self.startElement(name)
+            for item in value:
+                for new_name, new_value in item.iteritems():
+                    self.createNode(new_name, new_value)
+            self.endElement(name)
+            
+    def startElement(self, name):
+        output = '<%s>' % (name)
+        self.out.write(output)
+
+    def endElement(self, name):
+        output = '</%s>\n' % (name)
+        self.out.write(output)
+  
+    def text(self, data):
+        self.out.write(data)
+            
+
 def main():
     opts = parse_options()
     packages = read_packages(opts.filename, opts.encoding)
-        
+    
+    parser = DebianControlParser()
+    converter = DebianControl2XMLConverter(sys.stdout)
+    
     for package in packages:
         package = package.strip()
-        if package != '':  
-            parser = DebianControlParser(package)
-            
+        if package != '':
+            pkg = parser.ParsePackageString(package)
+            converter.CreateXMLTree(pkg)
+    
     return
 
      
