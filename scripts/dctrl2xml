@@ -52,6 +52,8 @@ class DebianControlParser:
             if match:
                 c = {'name': match.group(1), 'email': match.group(2)}
                 contacts_list.append({'contact': c})
+            else:
+                contacts_list.append({'contact': contact})
                 
         return contacts_list
         
@@ -60,14 +62,33 @@ class DebianControlParser:
     #    return
         
         
-    #def ParseDescription(self, desc_str):
-    #    return
+    def ParseDescription(self, desc_str):
+        upstream_re = r'.*^ (Author|Homepage):\s*(.*)$'
+        it = re.compile(upstream_re, re.M+re.S).finditer(desc_str)
+        
+        for match in it:
+            if match.group(1) == 'Author':
+                self.pkg['author'] = self.ParseContacts(match.group(2))
+            elif match.group(1) == 'Homepage'
+                self.pkg['homepage'] = match.group(2)
+        
+        self.pkg['long-description'] = desc_str
         
         
-    #def ParseRelations(self, relations_str):
-    #    return
+    def ParseRelations(self, relations_str):
+        relations_list = []
         
-        
+        for relation in relations_str.split(','):
+            if re.search('\|', relation):
+                alts = relation.split('|')
+                alts_list = [self.ParseRelation(alt) for alt in alts]
+                relations_list.append({'alternative': alts_list})
+            else:
+                relations_list.append(self.ParseRelation(relation))
+                
+        return relations_list
+
+               
     def ParseRelation(self, relation_str):
         relation = {}
         relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
@@ -79,8 +100,8 @@ class DebianControlParser:
             if match.group(2):
                 relation['relation'] = match.group(3)
                 relation['version'] = match.group(4)
-            if match.group(5):
-                archs = [arch.strip() for arch in match.group(6).split(',')]
+            if match.group(6):
+                archs = match.group(6).split()
                 arch_list = filter(lambda arch: arch[0] != '!', archs)
                 not_arch_list = filter(lambda arch: arch[0] == '!', archs)
                 
@@ -99,7 +120,7 @@ def main():
     for package in packages:
         package = package.strip()
         if package != '':  
-            parser = parser.DebianControlParser(package)
+            parser = DebianControlParser(package)
             
     return
 
