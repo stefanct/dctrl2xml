@@ -38,45 +38,60 @@ class DCtrlParser:
 
     def __init__(self, text):
         self.text = text
-        self.persons = ['Maintainer', 'Changed-By']
-        self.relations = ['Depends', 'Pre-Depends', 'Suggests', 'Recommends',
-                          'Conflicts', 'Provides', 'Replaces', 'Enhances',
-                          'Build-Depends', 'Build-Depends-Indep',
-                          'Build-Conflicts']
+        self.persons = ['maintainer', 'changed-by']
+        self.relations = ['depends', 'pre-depends', 'suggests', 'recommends',
+                          'conflicts', 'provides', 'replaces', 'enhances',
+                          'build-depends', 'build-depends-indep',
+                          'build-conflicts']
         self.pkg = {}
         self._pkg_parse()
         
     def _pkg_parse(self):
-        fields_re = r'^([\w-]*): ?(.*)\n( (.|\n)*)?'
+        fields_re = r'^([\w\-]*): ?(.*)$'
         it = re.compile(fields_re, re.M).finditer(self.text)
+
         for match in it:
-            field_name = match.group(1)
+            field_name = match.group(1).lower()
             field_value = match.group(2)
-            field_text = match.group(3)
+            
             if field_name in self.persons:
-                self.pkg[field_name] = self._pkg_parse_person(field_value)
-            elif field_name == 'Files':
-                self.pkg[field_name] = self._pkg_parse_files(field_text)
-            elif field_name == 'Description':
-                self.pkg[field_name] = field_value
-                self._pkg_parse_description(field_text)
+                self.pkg[field_name] = self._pkg_parse_person(field_value)           
+            
+            elif field_name == 'files':
+                field_text = self._pkg_parse_get_text(match.end())
+                self.pkg[field_name] = self._pkg_parse_files(field_text)     
+            
             elif field_name in self.relations:
                 self.pkg[field_name] = self._pkg_parse_relations(field_value)
-            elif field_name == 'Package':
-                self.pkg['Name'] = field_value
+            
+            elif field_name == 'package':
+                self.pkg['name'] = field_value            
+            
+            elif field_name == 'description':
+                field_text = self._pkg_parse_get_text(match.end())
+                self.pkg[field_name] = field_value
+                self._pkg_parse_description(field_text)           
+            
             else:
-                self.pkg[field_name] = field_value     
-              
+                self.pkg[field_name] = field_value
+    
+    def _pkg_parse_get_text(self, start):
+        text = self.text[start+1:]
+        match = re.compile(r'^\S', re.M+re.S).search(text+'\nx')
+        
+        end = start+match.end()
+        return self.text[start+1:end]
+            
     def _pkg_parse_person(self, person):
-        match = re.compile(r'(.*) <(.*)>').search(person)
+        match = re.compile(r'(.*?) <(.*?)>').search(person)
         if match:
-            return {'Name': match.group(1), 'Email': match.group(2)}
+            return {'name': match.group(1), 'email': match.group(2)}
             
     def _pkg_parse_files(self, files_text):
         files = {}
-        files_re = {'DSC': '.*\.dsc',
-                    'Diff': '.*\.diff\.gz',
-                    'Orig': '.*\.orig\.tar\.gz'}
+        files_re = {'dsc': '.*\.dsc',
+                    'diff': '.*\.diff\.gz',
+                    'orig': '.*\.orig\.tar\.gz'}
         it = re.compile(r' ([0-9a-f]{32}.*)').finditer(files_text)
         for line in it:
             if line.group(1):
@@ -84,18 +99,18 @@ class DCtrlParser:
                 for file_type, file_re in files_re.iteritems():                
                     if re.search(file_re, attrs[2]):
                         files[file_type] = {}
-                        files[file_type]['MD5sum'] = attrs[0]
-                        files[file_type]['Size'] = attrs[1]
-                        files[file_type]['Filename'] = attrs[2]
+                        files[file_type]['md5sum'] = attrs[0]
+                        files[file_type]['size'] = attrs[1]
+                        files[file_type]['filename'] = attrs[2]
         return files
     
     def _pkg_parse_description(self, desc_text):
-        hp_re = r'(.|\n)*^ Homepage: (.*)$'
-        hp_match = re.compile(hp_re, re.M).match(desc_text)
+        hp_re = r'.*^ Homepage: (.*)$'
+        hp_match = re.compile(hp_re, re.M+re.S).match(desc_text)
         if hp_match:
-            self.pkg['Homepage'] = hp_match.group(2)
-        self.pkg['Long-Description'] = \
-            desc_text.replace('\n ', '\n').strip()
+            self.pkg['homepage'] = hp_match.group(1)
+        self.pkg['long-description'] = desc_text
+        return
     
     def _pkg_parse_relations(self, relations_text):
         relations = relations_text.split(',')
@@ -106,66 +121,74 @@ class DCtrlParser:
                 alts_list = []
                 for alt in alts:
                     alts_list.append(self._pkg_parse_relation(alt))
-                relations_list.append({'Alternative': alts_list})
+                relations_list.append({'alternative': alts_list})
             else:
                 relations_list.append(self._pkg_parse_relation(relation))
         return relations_list
         
     def _pkg_parse_relation(self, relation_text):
         relation_text = relation_text.strip()
-        relation_re = r'([\w\+\-\.]*) ?(\(([<>=]{2}) (.*)\))? ?(\[(.*)\])?'
+        relation_re = r'([\w\+\-\.]*)\s*(\(\s*([<>=]{2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
         relation = {}
     
         match = re.match(relation_re, relation_text)
         if match:
             if match.group(1):
-                relation['Name'] = match.group(1)
+                relation['name'] = match.group(1)
             if match.group(2):
-                relation['Relation'] = match.group(3)
-                relation['Version'] = match.group(4)
+                relation['relation'] = match.group(3)
+                relation['version'] = match.group(4)
             if match.group(5):
                 archs = match.group(6).split(' ')
                 arch_list = []
                 narch_list = []
                 for arch in archs:
                     if arch[0] == '!':
-                        narch_list.append(arch[1:])
+                        narch_list.append({'name':arch[1:]})
                     else:
-                        arch_list.append(arch)
-                relation['NotArch'] = narch_list
-                relation['Arch'] = arch_list
+                        arch_list.append({'name': arch})
+                if len(narch_list) != 0:
+                    relation['notarch'] = narch_list
+                if len(arch_list) != 0:
+                    relation['arch'] = arch_list
             
-        return {'Package': relation}
-    
-    def pkgToXML(self, doc):
-        node = doc.createElement('package')        
-        for name, value in self.pkg.iteritems():
-            node.appendChild(self._pkg_create_node(doc, name, value))
-        return node
+        return {'package': relation}
 
-    def _pkg_create_node(self, doc, name, value):
-        node = doc.createElement(name.lower())
-        if name == 'Long-Description':
-             desc = doc.createTextNode(value)
-             desc.nodeType = Node.CDATA_SECTION_NODE
-             node.appendChild(desc)
+    def _pkg_create_node(self, name, value):
+        node = self.doc.createElement(name.lower())
+        
+        if name == 'long-description':
+            desc = self.doc.createTextNode(value)
+            desc.nodeType = Node.CDATA_SECTION_NODE
+            node.appendChild(desc)            
+        
         elif type(value) is StringType:
-            node.appendChild(doc.createTextNode(value))
+            node.appendChild(self.doc.createTextNode(value))
+        
         elif type(value) is DictType:
             for new_name in value:
-                node.appendChild(self._pkg_create_node(doc, new_name,
-                                                       value[new_name]))
+                child = self._pkg_create_node(new_name, value[new_name])
+                node.appendChild(child)
+                
         elif type(value) is ListType:
             for item in value:
                 for new_name, new_value in item.iteritems():
-                    node.appendChild(self._pkg_create_node(doc, new_name,
-                                                           new_value))
+                    child = self._pkg_create_node(new_name, new_value)
+                    node.appendChild(child)
         return node
             
-
+    def pkgToXML(self, doc):
+        self.doc = doc
+        node = self.doc.createElement('package')
+             
+        for name, value in self.pkg.iteritems():
+            node.appendChild(self._pkg_create_node(name, value))        
+        return node
+        
+        
 def main():
     opts = parse_options()
-    packages = read_packages(opts.filename)
+    packages = read_packages(opts.filename, opts.encoding)
 
     doc = minidom.parseString('<packages/>')
     root = doc.documentElement
@@ -180,11 +203,18 @@ def main():
     return
 
      
-def read_packages(filename):
-    if not filename:
+def read_packages(filename, encoding):
+    if filename == '':
         packages = sys.stdin.read()
     else:
         packages = read_packages_from_file(filename)
+    
+    # Python's minidom expects UTF-8 encoded strings.
+    try:
+        packages = packages.decode(encoding).encode('utf-8')
+    except LookupError, error:
+        print >> sys.stderr, error
+    
     packages = re.compile('^\n', re.M).split(packages)
     return packages
 
@@ -201,9 +231,9 @@ def read_packages_from_file(filename):
     try:
         content = file_obj(filename, 'r').read()
     except IOError, error:
-        print error
+        print >> sys.stderr, error
         sys.exit(error.args[0]);
-        
+
     return content
 
         
@@ -211,6 +241,9 @@ def parse_options():
     parser = OptionParser()
     parser.add_option('-f', '--file', dest='filename',
                       default='', metavar='FILE')
+    parser.add_option('-e', '--encoding', dest='encoding',
+                      default='utf-8', metavar='ENC')
+    
     (opts, args) = parser.parse_args()
     return opts
 
