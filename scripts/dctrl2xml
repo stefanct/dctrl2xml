@@ -145,22 +145,24 @@ class DCtrlParser:
 
     def _pkg_create_node(self, doc, name, value):
         node = doc.createElement(name.lower())
-        child = doc.createTextNode('none')
-        
-        if type(value) is StringType:
-            child = doc.createTextNode(value)
-        if type(value) is DictType:
-            child = doc.create
-        if type(value) is ListType:
-            print value
-            #for new_name, new_value in value:
-            #    child = self._pkg_create_node(doc, new_name, new_value)
-        
-        node.appendChild(child)
+        if name == 'Long-Description':
+             desc = doc.createTextNode(value)
+             desc.nodeType = Node.CDATA_SECTION_NODE
+             node.appendChild(desc)
+        elif type(value) is StringType:
+            node.appendChild(doc.createTextNode(value))
+        elif type(value) is DictType:
+            for new_name in value:
+                node.appendChild(self._pkg_create_node(doc, new_name,
+                                                       value[new_name]))
+        elif type(value) is ListType:
+            for item in value:
+                for new_name, new_value in item.iteritems():
+                    node.appendChild(self._pkg_create_node(doc, new_name,
+                                                           new_value))
         return node
             
-        
-    
+
 def main():
     opts = parse_options()
     packages = read_packages(opts.filename)

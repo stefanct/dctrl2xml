@@ -8,5 +8,5 @@ Standards-Version: 3.6.1
 Package: dctrl2xml
 Architecture: all
 Depends: ${python:Depends}
-Description: bla
- zonk plonk
+Description: Debian control file to XML converter
+ no description yet
