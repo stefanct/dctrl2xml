@@ -2,7 +2,7 @@ Source: dctrl2xml
 Section: utils
 Priority: optional
 Maintainer: Frank S. Thomas <frank@thomas-alfeld.de>
-Build-Depends-Indep: cdbs (>= 0.4.0), debhelper (>= 4.1.0), python, python (>= 2.3), python-dev
+Build-Depends-Indep: @cdbs@, python, python (>= 2.3), python-dev, docbook2x
 Standards-Version: 3.6.1
 
 Package: dctrl2xml
