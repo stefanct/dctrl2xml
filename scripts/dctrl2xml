@@ -34,77 +34,6 @@ __version__ = '$Revision$'
 __date__ = '$Date$'
 
 
-"""        
-        for field in parsed_pkg.iterkeys():
-        # parse package relationships
-        if field in relation:
-            parsed_pkg[field] = parse_package_relations(parsed_pkg[field])
-     
-
-
-        
-def parse_package_relations(relations_text):
-    relations = relations_text.split(',')
-    relations_list = []
-    
-    for relation in relations:
-        if re.search('\|', relation):
-            alternatives = relation.split('|')
-            alternatives_list = []
-            for alternative in alternatives:
-                alternatives_list.append(parse_relation(alternative))
-            relations_list.append({'Alternative': alternatives_list})
-        else:
-            relations_list.append(parse_relation(relation))
-    
-    return relations_list
-
-                
-def parse_relation(relation):
-    relation = relation.strip()
-    relation_re = r'([\w\+\-\.]*) ?(\(([<>=]{2}) (.*)\))? ?(\[(.*)\])?'
-    relation_pkg = {}
-    
-    match = re.match(relation_re, relation)
-    if match:
-        if match.group(1):
-            relation_pkg['Package'] = match.group(1)
-        if match.group(2):
-            relation_pkg['Relation'] = match.group(3)
-            relation_pkg['Version'] = match.group(4)
-        if match.group(5):
-            arches = match.group(6).split(' ')
-            arch_list = []
-            narch_list = []
-            for arch in arches:
-                if arch[0] == '!':
-                    narch_list.append(arch[1:])
-                else:
-                    arch_list.append(arch)
-            relation_pkg['!Arch'] = narch_list
-            relation_pkg['Arch'] = arch_list
-            
-    return relation_pkg    
-
-def make_node(doc, name, content):
-    node = doc.createElement(name.lower())
-
-    # package has package!!!!!!!!!!!!!!!!    
-    if type(content) is StringType:
-        node.appendChild(doc.createTextNode(content))
-    elif type(content) is DictType:
-        for field in content:
-            node.appendChild(make_node(doc, field, content[field]))
-#    elif type(content) is ListType:
-#        if name == 'Long-Description':
-#            for para in content:
-                #p = 
-                #node.appendChild(doc.createTextNode(para))
-        
-    return node
-
-"""
-
 class DCtrlParser:
 
     def __init__(self, text):
@@ -131,8 +60,12 @@ class DCtrlParser:
             elif field_name == 'Description':
                 self.pkg[field_name] = field_value
                 self._pkg_parse_description(field_text)
-        
-        print self.pkg        
+            elif field_name in self.relations:
+                self.pkg[field_name] = self._pkg_parse_relations(field_value)
+            elif field_name == 'Package':
+                self.pkg['Name'] = field_value
+            else:
+                self.pkg[field_name] = field_value     
               
     def _pkg_parse_person(self, person):
         match = re.compile(r'(.*) <(.*)>').search(person)
@@ -157,16 +90,76 @@ class DCtrlParser:
         return files
     
     def _pkg_parse_description(self, desc_text):
-
         hp_re = r'(.|\n)*^ Homepage: (.*)$'
         hp_match = re.compile(hp_re, re.M).match(desc_text)
         if hp_match:
             self.pkg['Homepage'] = hp_match.group(2)
+        self.pkg['Long-Description'] = \
+            desc_text.replace('\n ', '\n').strip()
+    
+    def _pkg_parse_relations(self, relations_text):
+        relations = relations_text.split(',')
+        relations_list = []
+        for relation in relations:
+            if re.search('\|', relation):
+                alts = relation.split('|')
+                alts_list = []
+                for alt in alts:
+                    alts_list.append(self._pkg_parse_relation(alt))
+                relations_list.append({'Alternative': alts_list})
+            else:
+                relations_list.append(self._pkg_parse_relation(relation))
+        return relations_list
+        
+    def _pkg_parse_relation(self, relation_text):
+        relation_text = relation_text.strip()
+        relation_re = r'([\w\+\-\.]*) ?(\(([<>=]{2}) (.*)\))? ?(\[(.*)\])?'
+        relation = {}
+    
+        match = re.match(relation_re, relation_text)
+        if match:
+            if match.group(1):
+                relation['Name'] = match.group(1)
+            if match.group(2):
+                relation['Relation'] = match.group(3)
+                relation['Version'] = match.group(4)
+            if match.group(5):
+                archs = match.group(6).split(' ')
+                arch_list = []
+                narch_list = []
+                for arch in archs:
+                    if arch[0] == '!':
+                        narch_list.append(arch[1:])
+                    else:
+                        arch_list.append(arch)
+                relation['NotArch'] = narch_list
+                relation['Arch'] = arch_list
+            
+        return {'Package': relation}
     
     def pkgToXML(self, doc):
-        node = doc.createElement('package')
+        node = doc.createElement('package')        
+        for name, value in self.pkg.iteritems():
+            node.appendChild(self._pkg_create_node(doc, name, value))
         return node
 
+    def _pkg_create_node(self, doc, name, value):
+        node = doc.createElement(name.lower())
+        child = doc.createTextNode('none')
+        
+        if type(value) is StringType:
+            child = doc.createTextNode(value)
+        if type(value) is DictType:
+            child = doc.create
+        if type(value) is ListType:
+            print value
+            #for new_name, new_value in value:
+            #    child = self._pkg_create_node(doc, new_name, new_value)
+        
+        node.appendChild(child)
+        return node
+            
+        
     
 def main():
     opts = parse_options()
