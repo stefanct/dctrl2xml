@@ -1,8 +1,9 @@
-dctrl2xml (0.2) UNRELEASED; urgency=low
+dctrl2xml (0.2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * Added command line option to specify the input's encoding.
+  * Minor bugs fixed.
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Wed, 12 Jan 2005 20:40:54 +0100
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu, 13 Jan 2005 18:53:24 +0100
 
 dctrl2xml (0.1) unstable; urgency=low
 

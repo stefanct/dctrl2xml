@@ -38,7 +38,7 @@ class DCtrlParser:
 
     def __init__(self, text):
         self.text = text
-        self.persons = ['maintainer', 'changed-by']
+        self.persons = ['maintainer', 'changed-by', 'uploaders']
         self.relations = ['depends', 'pre-depends', 'suggests', 'recommends',
                           'conflicts', 'provides', 'replaces', 'enhances',
                           'build-depends', 'build-depends-indep',
@@ -55,7 +55,8 @@ class DCtrlParser:
             field_value = match.group(2)
             
             if field_name in self.persons:
-                self.pkg[field_name] = self._pkg_parse_person(field_value)           
+                self.pkg[field_name] = \
+                    self._pkg_parse_persons(field_value, field_name)           
             
             elif field_name == 'files':
                 field_text = self._pkg_parse_get_text(match.end())
@@ -82,16 +83,26 @@ class DCtrlParser:
         end = start+match.end()
         return self.text[start+1:end]
             
-    def _pkg_parse_person(self, person):
-        match = re.compile(r'(.*?) <(.*?)>').search(person)
-        if match:
-            return {'name': match.group(1), 'email': match.group(2)}
+    def _pkg_parse_persons(self, persons_text, field_name):
+        person_re = r'\s*(.*?) <(.*?)>'
+        persons = persons_text.split(',')
+        persons_list = []
+        
+        for person in persons:
+            match = re.compile(person_re).search(person)
+            if match:
+                p = {'person': {'name': match.group(1),
+                                'email': match.group(2)}}
+                persons_list.append(p)
+                
+        return persons_list
             
     def _pkg_parse_files(self, files_text):
         files = {}
         files_re = {'dsc': '.*\.dsc',
                     'diff': '.*\.diff\.gz',
                     'orig': '.*\.orig\.tar\.gz'}
+                    
         it = re.compile(r' ([0-9a-f]{32}.*)').finditer(files_text)
         for line in it:
             if line.group(1):
@@ -110,7 +121,6 @@ class DCtrlParser:
         if hp_match:
             self.pkg['homepage'] = hp_match.group(1)
         self.pkg['long-description'] = desc_text
-        return
     
     def _pkg_parse_relations(self, relations_text):
         relations = relations_text.split(',')
