@@ -1,5 +1,5 @@
 #!/usr/bin/python2.3
-# $Id: dctrl2xml 342 2005-01-10 21:56:23Z mrfrost $
+# $Id$
 #
 # dctrl2xml - a Debian control file to XML converter 
 # Copyright (C) 2005 by Frank S. Thomas <frank@thomas-alfeld.de>
@@ -30,7 +30,7 @@ from xml.dom import minidom, Document, Node
 from xml.dom.ext import PrettyPrint
 
 __author__ = 'Frank S. Thomas'
-__version__ = '$Revision: 344 $'
+__version__ = '$Revision$'
 __date__ = '$Date$'
 
 
