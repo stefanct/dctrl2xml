@@ -80,8 +80,8 @@ def parse_package_relationship(rel_text):
     
 def parse_package_source_files(pkg_text):
     files = {'DSC':{}, 'Diff':{}, 'Orig':{}}
-    files_re = {'DSC': '.*.dsc', 'Diff': '.*.diff.gz',
-                'Orig': '.*.orig.tar.gz'}
+    files_re = {'DSC': '.*\.dsc', 'Diff': '.*\.diff\.gz',
+                'Orig': '.*\.orig\.tar\.gz'}
     
     it = re.compile(r' ([0-9a-f]{32}.*)').finditer(pkg_text)
     for file_line in it:
