@@ -49,17 +49,15 @@ def append_package_node(doc, root, pkg_text):
     
 def parse_package(pkg_text):
     parsed_pkg = {}
-    it = re.compile(r'([\w-]*): (.*)').finditer(pkg_text)
+    it = re.compile(r'^([\w-]*): (.*)', re.M).finditer(pkg_text)
     for match in it:
         parsed_pkg[match.group(1)] = match.group(2)
     
-    if parsed_pkg.has_key('Binary'):
-        parsed_pkg['Type'] = 'source'
+    # parse files
+    if parsed_pkg.has_key('Files'):
         parsed_pkg['Files'] = parse_package_source_files(pkg_text)
-    else:
-        parsed_pkg['Type'] = 'binary'
     
-    # parse maintainer field
+    # parse maintainer
     if parsed_pkg.has_key('Maintainer'):
         match = re.compile(r'(.*) <(.*)>').search(parsed_pkg['Maintainer'])
         if match:
@@ -71,13 +69,23 @@ def parse_package(pkg_text):
            'Build-Depends-Indep', 'Build-Conflicts']
     for field in parsed_pkg.iterkeys():
         if field in rel:
-            parsed_pkg[field] = parse_package_relationship(parsed_pkg[field])
+            parsed_pkg[field] = parse_package_relations(parsed_pkg[field])
     
     return parsed_pkg
     
-def parse_package_relationship(rel_text):
-    print rel_text.split(', ')
+def parse_package_relations(relations_text):
+    relations = relations_text.split(',')
+    relations_list = []
     
+    for relation in relations:
+        if re.search('\|', relation):
+            print
+        else:
+            relations_list.append(parse_relation(relation))
+
+def parse_relation(relation):
+    print
+
 def parse_package_source_files(pkg_text):
     files = {'DSC':{}, 'Diff':{}, 'Orig':{}}
     files_re = {'DSC': '.*\.dsc', 'Diff': '.*\.diff\.gz',
@@ -85,7 +93,7 @@ def parse_package_source_files(pkg_text):
     
     it = re.compile(r' ([0-9a-f]{32}.*)').finditer(pkg_text)
     for file_line in it:
-        if file_line.group(1): # line without leading space
+        if file_line.group(1):
             attrs = file_line.group(1).split(' ')
             for file_type, file_re in files_re.iteritems():                
                 if re.search(file_re, attrs[2]):
