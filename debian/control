@@ -9,4 +9,4 @@ Package: dctrl2xml
 Architecture: all
 Depends: ${python:Depends}
 Description: bla
- bla
+ zonk plonk

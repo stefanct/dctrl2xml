@@ -9,9 +9,9 @@ args = {
     'description': '',
     'author': 'Frank S. Thomas',
     'author_email': 'frank@thomas-alfeld.de',
-    'url': 'http://www.thomas-alfeld.de/frank/download/debian/source/dctrl2xml',
+    'url': 'http://www.thomas-alfeld.de/frank/download/debian/source/dctrl2xml/',
     'license': 'GNU GPL',
-    'scripts': ('dctrl2xml',)
+    'scripts': ('scripts/dctrl2xml')
 }
 
 if __name__ == '__main__':

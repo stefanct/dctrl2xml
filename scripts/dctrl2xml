@@ -1,7 +1,7 @@
 #!/usr/bin/python2.3
 # $Id$
 #
-# packages2xml.py
+# dctrl2xml
 # Copyright (C) 2005 by Frank S. Thomas <frank@thomas-alfeld.de>
 #
 # This program is free software; you can redistribute it and/or modify
