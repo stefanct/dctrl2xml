@@ -2,3 +2,9 @@
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
+
+MAN_XSL = /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
+XSLT_OPTS = --nonet
+
+manpage.1: dctrl2xml.xml
+	xsltproc $(XSLT_OPTS) $(MAN_XSL) $<
