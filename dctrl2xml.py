@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # $Id$
 #
 # packages2xml.py
