@@ -292,3 +292,29 @@ def parse_options():
         
 if __name__ == '__main__':
     main()
+Z2File
+    else:
+        file_obj = file
+
+    try:
+        content = file_obj(filename, 'r').read()
+    except IOError, error:
+        sys.stderr.write(error)
+        sys.exit(error.args[0]);
+
+    return content
+
+        
+def parse_options():
+    parser = optparse.OptionParser()
+    parser.add_option('-f', '--file', dest='filename',
+                      default='', metavar='FILE')
+    parser.add_option('-e', '--encoding', dest='encoding',
+                      default='utf-8', metavar='ENC')
+    
+    (opts, args) = parser.parse_args()
+    return opts
+
+        
+if __name__ == '__main__':
+    main()
