@@ -1,7 +1,7 @@
 #!/usr/bin/python2.3
-# $Id$
+# $Id: dctrl2xml 342 2005-01-10 21:56:23Z mrfrost $
 #
-# dctrl2xml
+# dctrl2xml - a Debian control file to XML converter 
 # Copyright (C) 2005 by Frank S. Thomas <frank@thomas-alfeld.de>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -21,13 +21,16 @@
 
 import sys
 import re
-import gzip
 import bz2
+import gzip
 
 from optparse import OptionParser
+from types import *
 from xml.dom import minidom, Document, Node
 from xml.dom.ext import PrettyPrint
-from types import *
+
+__author__ = 'Frank S. Thomas'
+__revision__ = '$Revision$'
 
 def main():
     opts = parse_options()
@@ -56,15 +59,16 @@ def append_package_node(doc, root, pkg_text):
         
 def make_node(doc, name, content):
     node = doc.createElement(name.lower())
-    
+
+    # package has package!!!!!!!!!!!!!!!!    
     if type(content) is StringType:
         node.appendChild(doc.createTextNode(content))
     elif type(content) is DictType:
         for field in content:
             node.appendChild(make_node(doc, field, content[field]))
-    elif type(content) is ListType:
-        if name == 'Long-Description':
-            for para in content:
+#    elif type(content) is ListType:
+#        if name == 'Long-Description':
+#            for para in content:
                 #p = 
                 #node.appendChild(doc.createTextNode(para))
         
