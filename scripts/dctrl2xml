@@ -30,7 +30,9 @@ from xml.dom import minidom, Document, Node
 from xml.dom.ext import PrettyPrint
 
 __author__ = 'Frank S. Thomas'
-__revision__ = '$Revision$'
+__revision__ = '$Revision: 344 $'
+__date__ = '$Date$'
+
 
 def main():
     opts = parse_options()
@@ -44,7 +46,8 @@ def main():
 
     PrettyPrint(doc)
     return
-    
+
+        
 def append_package_node(doc, root, pkg_text):
     if pkg_text.strip() == '':
         return
@@ -56,7 +59,8 @@ def append_package_node(doc, root, pkg_text):
         pkg.appendChild(make_node(doc, field, parsed_pkg[field]))
     
     root.appendChild(pkg)
-        
+
+            
 def make_node(doc, name, content):
     node = doc.createElement(name.lower())
 
@@ -73,7 +77,8 @@ def make_node(doc, name, content):
                 #node.appendChild(doc.createTextNode(para))
         
     return node
-    
+
+        
 def parse_package(pkg_text):
     parsed_pkg = {}
     it = re.compile(r'^([\w-]*): ?(.*)', re.M).finditer(pkg_text)
@@ -106,6 +111,7 @@ def parse_package(pkg_text):
             
     return parsed_pkg
 
+    
 def parse_package_description(pkg_text):
     paragraphs = []
     match = re.compile(r'Description: .*\n((.|\n)*)', re.M).search(pkg_text)
@@ -113,7 +119,8 @@ def parse_package_description(pkg_text):
         paragraphs = match.group(1).split(' .\n')
     
     return paragraphs
-    
+
+        
 def parse_package_relations(relations_text):
     relations = relations_text.split(',')
     relations_list = []
@@ -129,7 +136,8 @@ def parse_package_relations(relations_text):
             relations_list.append(parse_relation(relation))
     
     return relations_list
-            
+
+                
 def parse_relation(relation):
     relation = relation.strip()
     relation_re = r'([\w\+\-\.]*) ?(\(([<>=]{2}) (.*)\))? ?(\[(.*)\])?'
@@ -156,6 +164,7 @@ def parse_relation(relation):
             
     return relation_pkg    
 
+    
 def parse_package_source_files(pkg_text):
     files = {'DSC':{}, 'Diff':{}, 'Orig':{}}
     files_re = {'DSC': '.*\.dsc', 'Diff': '.*\.diff\.gz',
@@ -171,7 +180,8 @@ def parse_package_source_files(pkg_text):
                     files[file_type]['Size'] = attrs[1]
                     files[file_type]['Filename'] = attrs[2]
     return files
-    
+
+        
 def read_packages(filename):
     if not filename:
         packages = sys.stdin.read()
@@ -180,7 +190,8 @@ def read_packages(filename):
 
     packages = re.compile('^\n', re.M).split(packages)
     return packages
-    
+
+        
 def read_packages_from_file(filename):
     extension = filename.split('.')[-1]
 
@@ -198,13 +209,15 @@ def read_packages_from_file(filename):
         sys.exit(error.args[0]);
     
     return content
-    
+
+        
 def parse_options():
     parser = OptionParser()
     parser.add_option('-f', '--file', dest='filename', default='',
                       metavar='FILE')
     (opts, args) = parser.parse_args()
     return opts
-    
+
+        
 if __name__ == '__main__':
     main()
