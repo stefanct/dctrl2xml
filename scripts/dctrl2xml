@@ -27,12 +27,13 @@ import bz2
 from optparse import OptionParser
 from xml.dom import minidom, Document, Node
 from xml.dom.ext import PrettyPrint
+from types import *
 
 def main():
     opts = parse_options()
     packages = read_packages(opts.filename)
 
-    doc  = minidom.parseString('<packages/>')
+    doc = minidom.parseString('<packages/>')
     root = doc.documentElement
     
     for pkg_text in packages:
@@ -45,17 +46,35 @@ def append_package_node(doc, root, pkg_text):
     if pkg_text.strip() == '':
         return
         
-    parse_package(pkg_text)
+    parsed_pkg = parse_package(pkg_text)
+    pkg = doc.createElement('package')
+    
+    for field in parsed_pkg:
+        pkg.appendChild(make_node(doc, field, parsed_pkg[field]))
+    
+    root.appendChild(pkg)
+        
+def make_node(doc, name, content):
+    node = doc.createElement(name.lower())
+    
+    if type(content) is StringType:
+        node.appendChild(doc.createTextNode(content))
+    elif type(content) is DictType:
+        for field in content:
+            node.appendChild(make_node(doc, field, content[field]))
+    elif type(content) is ListType:
+        if name == 'Long-Description':
+            for para in content:
+                #p = 
+                #node.appendChild(doc.createTextNode(para))
+        
+    return node
     
 def parse_package(pkg_text):
     parsed_pkg = {}
-    it = re.compile(r'^([\w-]*): (.*)', re.M).finditer(pkg_text)
+    it = re.compile(r'^([\w-]*): ?(.*)', re.M).finditer(pkg_text)
     for match in it:
         parsed_pkg[match.group(1)] = match.group(2)
-    
-    # parse files
-    if parsed_pkg.has_key('Files'):
-        parsed_pkg['Files'] = parse_package_source_files(pkg_text)
                           
     person = ['Maintainer', 'Changed-By']
     relation = ['Depends', 'Pre-Depends', 'Suggests', 'Recommends',
@@ -73,14 +92,23 @@ def parse_package(pkg_text):
                 parsed_pkg[field] = {'Name': match.group(1),
                                      'Email': match.group(2)}
     
+    # parse files
+    if parsed_pkg.has_key('Files'):
+        parsed_pkg['Files'] = parse_package_source_files(pkg_text)
+        
     # parse long description
     if parsed_pkg.has_key('Description'):
         parsed_pkg['Long-Description'] = parse_package_description(pkg_text)
             
-    print parsed_pkg
+    return parsed_pkg
 
 def parse_package_description(pkg_text):
-    return
+    paragraphs = []
+    match = re.compile(r'Description: .*\n((.|\n)*)', re.M).search(pkg_text)
+    if match:
+        paragraphs = match.group(1).split(' .\n')
+    
+    return paragraphs
     
 def parse_package_relations(relations_text):
     relations = relations_text.split(',')
