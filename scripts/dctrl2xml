@@ -53,26 +53,34 @@ def parse_package(pkg_text):
     for match in it:
         parsed_pkg[match.group(1)] = match.group(2)
     
-    """ parse files """
+    # parse files
     if parsed_pkg.has_key('Files'):
         parsed_pkg['Files'] = parse_package_source_files(pkg_text)
-    
-    """ parse maintainer """
-    if parsed_pkg.has_key('Maintainer'):
-        match = re.compile(r'(.*) <(.*)>').search(parsed_pkg['Maintainer'])
-        if match:
-            parsed_pkg['Maintainer'] = {'Name': match.group(1),
-                                        'Email': match.group(2)}
-                                        
-    """ parse package relationships """
-    rel = ['Depends', 'Pre-Depends', 'Suggests', 'Recommends', 'Conflicts',
-           'Provides', 'Replaces', 'Enhances', 'Build-Depends',
-           'Build-Depends-Indep', 'Build-Conflicts']
+                          
+    person = ['Maintainer', 'Changed-By']
+    relation = ['Depends', 'Pre-Depends', 'Suggests', 'Recommends',
+        'Conflicts', 'Provides', 'Replaces', 'Enhances', 'Build-Depends',
+        'Build-Depends-Indep', 'Build-Conflicts']
+        
     for field in parsed_pkg.iterkeys():
-        if field in rel:
+        # parse package relationships
+        if field in relation:
             parsed_pkg[field] = parse_package_relations(parsed_pkg[field])
+        # parse maintainer/changed-by
+        if field in person:
+            match = re.compile(r'(.*) <(.*)>').search(parsed_pkg[field])
+            if match:
+                parsed_pkg[field] = {'Name': match.group(1),
+                                     'Email': match.group(2)}
     
-    return parsed_pkg
+    # parse long description
+    if parsed_pkg.has_key('Description'):
+        parsed_pkg['Long-Description'] = parse_package_description(pkg_text)
+            
+    print parsed_pkg
+
+def parse_package_description(pkg_text):
+    return
     
 def parse_package_relations(relations_text):
     relations = relations_text.split(',')
@@ -87,7 +95,9 @@ def parse_package_relations(relations_text):
             relations_list.append({'Alternative': alternatives_list})
         else:
             relations_list.append(parse_relation(relation))
-
+    
+    return relations_list
+            
 def parse_relation(relation):
     relation = relation.strip()
     relation_re = r'([\w\+\-\.]*) ?(\(([<>=]{2}) (.*)\))? ?(\[(.*)\])?'
@@ -100,8 +110,19 @@ def parse_relation(relation):
         if match.group(2):
             relation_pkg['Relation'] = match.group(3)
             relation_pkg['Version'] = match.group(4)
-    
-    print relation_pkg    
+        if match.group(5):
+            arches = match.group(6).split(' ')
+            arch_list = []
+            narch_list = []
+            for arch in arches:
+                if arch[0] == '!':
+                    narch_list.append(arch[1:])
+                else:
+                    arch_list.append(arch)
+            relation_pkg['!Arch'] = narch_list
+            relation_pkg['Arch'] = arch_list
+            
+    return relation_pkg    
 
 def parse_package_source_files(pkg_text):
     files = {'DSC':{}, 'Diff':{}, 'Orig':{}}
