@@ -9,7 +9,7 @@ args = {
     'description': '',
     'author': 'Frank S. Thomas',
     'author_email': 'frank@thomas-alfeld.de',
-    'license': 'GNU GPL'
+    'license': 'GNU GPL',
     'scripts': (
 	'dctrl2xml'
     )
