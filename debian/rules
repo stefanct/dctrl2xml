@@ -5,10 +5,10 @@ DEB_AUTO_UPDATE_DEBIAN_CONTROL := yes
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
 
-DEB_INSTALL_MANPAGES_dctrl2xml := dctrl2xml.1
+DEB_INSTALL_MANPAGES_dctrl2xml := doc/dctrl2xml.1
 
 build/dctrl2xml::
-	docbook2x-man doc/dctrl2xml.xml
+	cd doc && $(MAKE)
 
 clean::
-	dh_clean dctrl2xml.1
+	cd doc && -$(MAKE) clean

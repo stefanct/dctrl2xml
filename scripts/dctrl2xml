@@ -27,8 +27,7 @@ import optparse
 import types
 import copy
 
-from xml.dom import minidom, Document, Node
-from xml.dom.ext import PrettyPrint
+from elementtree.ElementTree import Element, SubElement, dump
 
 __author__ = 'Frank S. Thomas'
 __version__ = '$Revision$'
@@ -63,9 +62,6 @@ class DebianControlParser:
                 self.pkg[field] = value
 
         pkg = copy.copy(self.pkg)
-        #self.pkg['name'] = None
-        #self.pkg['upstream'] = None
-        #self.pkg['long-description'] = None
                 
         for field in pkg:
             if field in self.contacts:
@@ -77,18 +73,12 @@ class DebianControlParser:
             elif field == 'package':
                 self.pkg['name'] = self.pkg[field]    
                         
-            elif field == 'files':
+            elif field == 'files' and text.has_key(field):
                 self.pkg[field] = self.ParseFileList(text[field])
             
-            elif field == 'description':
+            elif field == 'description' and text.has_key(field):
                 self.pkg['upstream'] = self.ParseDescription(text[field])     
                 self.pkg['long-description'] = text[field]
-
-        #del self.pkg['package']
-        #if not self.pkg['upstream']:
-        #    del self.pkg['upstream']
-        #if not self.pkg['long-description']:
-        #    del self.pkg['long-description']
             
         return self.pkg
 
@@ -187,75 +177,61 @@ class DebianControlParser:
 
 class DebianControl2XMLConverter:
 
-    def __init__(self, doc):
-        self.doc = doc
+    def __init__(self, root):
+        self.root = root
 
         
     def CreateXMLTree(self, pkg):
-        node = self.doc.createElement('package')   
+        node = SubElement(self.root, 'package')
         for name, value in pkg.iteritems():
-            node.appendChild(self.createNode(name, value))
+            node.append(self.createNode(name, value))
         
         return node
-    
         
     def createNode(self, name, value):
-        node = self.doc.createElement(name)
-        
-        if name == 'long-description':
-            desc = self.doc.createTextNode(value)
-            desc.nodeType = Node.CDATA_SECTION_NODE
-            node.appendChild(desc) 
+        node = Element(name)
             
-        elif type(value) is types.StringType:
-            node.appendChild(self.doc.createTextNode(value))
+        if type(value) is types.StringType:
+            node.text = value
             
         elif type(value) is types.DictType:
             for new_name in value:
                 child = self.createNode(new_name, value[new_name])           
-                node.appendChild(child)
+                node.append(child)
                 
         elif type(value) is types.ListType:
             for item in value:
                 for new_name, new_value in item.iteritems():
                     child = self.createNode(new_name, new_value)
-                    node.appendChild(child)
-                    
+                    node.append(child)
+        
         return node
-                    
+
 
 def main():
     opts = parse_options()
-    packages = read_packages(opts.filename, opts.encoding)
+    packages = read_packages(opts.filename)
     
-    doc = minidom.parseString('<packages/>')
-    root = doc.documentElement
+    root = Element('packages')
     
     parser = DebianControlParser()
-    converter = DebianControl2XMLConverter(doc)
+    converter = DebianControl2XMLConverter(root)
 
     for package in packages:
         package = package.strip()
         if package != '':
             pkg = parser.ParsePackageString(package)
-            pkg_node = converter.CreateXMLTree(pkg)
-            root.appendChild(pkg_node)
+            converter.CreateXMLTree(pkg)
     
-    PrettyPrint(doc)   
+    dump(root)
     return
 
      
-def read_packages(filename, encoding):
+def read_packages(filename):
     if filename == '':
         packages = sys.stdin.read()
     else:
         packages = read_packages_from_file(filename)
-    
-    # Python's minidom expects UTF-8 encoded strings.
-    try:
-        packages = packages.decode(encoding).encode('utf-8')
-    except LookupError, error:
-        sys.stderr.write(error)
     
     packages = re.compile('^\n', re.M).split(packages)
     return packages
@@ -283,34 +259,6 @@ def parse_options():
     parser = optparse.OptionParser()
     parser.add_option('-f', '--file', dest='filename',
                       default='', metavar='FILE')
-    parser.add_option('-e', '--encoding', dest='encoding',
-                      default='utf-8', metavar='ENC')
-    
-    (opts, args) = parser.parse_args()
-    return opts
-
-        
-if __name__ == '__main__':
-    main()
-Z2File
-    else:
-        file_obj = file
-
-    try:
-        content = file_obj(filename, 'r').read()
-    except IOError, error:
-        sys.stderr.write(error)
-        sys.exit(error.args[0]);
-
-    return content
-
-        
-def parse_options():
-    parser = optparse.OptionParser()
-    parser.add_option('-f', '--file', dest='filename',
-                      default='', metavar='FILE')
-    parser.add_option('-e', '--encoding', dest='encoding',
-                      default='utf-8', metavar='ENC')
     
     (opts, args) = parser.parse_args()
     return opts

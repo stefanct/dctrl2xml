@@ -1,7 +1,10 @@
 dctrl2xml (0.3) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * debian/control.in:
+    - Added "python-elementtree" to Depends.as dependency. 
   * Manual page added.
+  * twice as fast xml.dom
+  * Rephrased debian/copyright a little.
 
  -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu, 13 Jan 2005 18:56:08 +0100
 

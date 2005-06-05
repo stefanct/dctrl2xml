@@ -9,7 +9,7 @@ args = {
     'description': 'Debian control file to XML converter',
     'author': 'Frank S. Thomas',
     'author_email': 'frank@thomas-alfeld.de',
-    'url': 'http://www.thomas-alfeld.de/frank/download/debian/source/dctrl2xml/',
+    'url': 'http://www.thomas-alfeld.de/frank/download/debian/dctrl2xml/',
     'license': 'GNU GPL',
     'scripts': (
         'scripts/dctrl2xml',
