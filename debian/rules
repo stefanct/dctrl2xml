@@ -8,7 +8,7 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 DEB_INSTALL_MANPAGES_dctrl2xml := doc/dctrl2xml.1
 
 build/dctrl2xml::
-	cd doc && $(MAKE)
+	$(MAKE) -C doc
 
 clean::
-	cd doc && -$(MAKE) clean
+	-$(MAKE) -C doc clean
