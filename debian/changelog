@@ -1,10 +1,15 @@
 dctrl2xml (0.3) unstable; urgency=low
-
+  
+  * Rewrote parts of the Debian control parser and switched from xml.dom to
+    the python-elementtree module for building the XML tree. This
+    implementation is twice as fast as the old one with xml.dom. 
+  * Removed the -e / --encoding command line option, because it was only
+    needed for the xml.dom module.
+  * Added manual page for dctrl2xml.
   * debian/control.in:
-    - Added "python-elementtree" to Depends.as dependency. 
-  * Manual page added.
-  * twice as fast xml.dom
-  * Rephrased debian/copyright a little.
+    - Added Build-Depends-Indep on docbook2x for building dctrl2xml's man page.
+    - Added Depends on python-elementtree.
+    - Finally wrote the extended description for this package.
 
  -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu, 13 Jan 2005 18:56:08 +0100
 

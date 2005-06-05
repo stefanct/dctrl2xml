@@ -222,7 +222,8 @@ def main():
         if package != '':
             pkg = parser.ParsePackageString(package)
             converter.CreateXMLTree(pkg)
-    
+
+    print '<?xml version="1.0" encoding="UTF-8"?>'
     dump(root)
     return
 
