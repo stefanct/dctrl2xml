@@ -6,7 +6,7 @@ from distutils.core import setup
 args = {
     'name': 'dctrl2xml',
     'version': '0.3',
-    'description': 'Debian control file to XML converter',
+    'description': 'Debian package control file to XML converter',
     'author': 'Frank S. Thomas',
     'author_email': 'frank@thomas-alfeld.de',
     'url': 'http://www.thomas-alfeld.de/frank/download/debian/dctrl2xml/',

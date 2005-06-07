@@ -13,9 +13,9 @@ dctrl2xml (0.3) unstable; urgency=low
       python is needed for dh_python, which is used in CDBS'
       python-distutils class.
     - Added Depends on python-elementtree.
-    - Finally wrote the extended description for this package.
+    - Finally wrote the extended description for this package. :-)
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Mon,  6 Jun 2005 14:11:55 +0200
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Tue,  7 Jun 2005 20:54:30 +0200
 
 dctrl2xml (0.2) unstable; urgency=low
 

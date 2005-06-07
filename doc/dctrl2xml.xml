@@ -7,7 +7,7 @@
   <!ENTITY dhusername  "Frank S. Thomas">
   <!ENTITY dhemail     "<email>frank@thomas-alfeld.de</email>">
   <!ENTITY dhpackage   "dctrl2xml">
-  <!ENTITY dhdate      "<date>March 25, 2005</date>">
+  <!ENTITY dhdate      "<date>June 07, 2005</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -45,20 +45,57 @@
 
   <refnamediv>
     <refname>dctrl2xml</refname>
-    <refpurpose></refpurpose>
+    <refpurpose>a Debian package control file to XML converter</refpurpose>
   </refnamediv>
   
   <refsynopsisdiv>
     <cmdsynopsis>
       <command>&dhpackage;</command>
-      <!--<arg><replaceable></replaceable></arg>-->
+      <arg><replaceable>options</replaceable></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
 
   <refsect1>
+    <title>OPTIONS</title>
+    <para>For a full summary of options, run <command>dctrl2xml 
+      --help</command>.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-h, --help</option></term>
+        <listitem>
+          <para>Show help about options.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-fFILE, --file=FILE</option></term>
+        <listitem>
+          <para>Read Debian control structure from file 
+            <replaceable>FILE</replaceable>.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  
+  <refsect1>
+    <title>EXAMPLES</title>
+    <variablelist>
+      <varlistentry>
+        <term>apt-cache show hello build-essential | dctrl2xml</term>
+        <listitem>
+          <para><command>dctrl2xml</command> can be used in pipes. This
+            example outputs an XML representation of the package records of
+            the hello and build-essential packages to standard output.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  
+  <refsect1>
     <title>AUTHOR</title>
-    <para>Written by Frank S. Thomas <email>frank@thomas-alfeld.de</email>.
-    </para>
+    <para>Written by Frank S. Thomas 
+      &lt;<email>frank@thomas-alfeld.de</email>&gt;.</para>
   </refsect1>
   
 </refentry>
