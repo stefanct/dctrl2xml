@@ -1,3 +1,9 @@
+dctrl2xml (0.4) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Tue,  7 Jun 2005 21:22:03 +0200
+
 dctrl2xml (0.3) unstable; urgency=low
   
   * Rewrote parts of the Debian control parser and switched from xml.dom to
