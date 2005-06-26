@@ -1,6 +1,8 @@
 dctrl2xml (0.4) UNRELEASED; urgency=low
 
   * NOT RELEASED YET
+  * debian/control.in:
+    - Bumped Standards-Version from 3.6.1 to 3.6.2, no changes required.
 
  -- Frank S. Thomas <frank@thomas-alfeld.de>  Tue,  7 Jun 2005 21:22:03 +0200
 
