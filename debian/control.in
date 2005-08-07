@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Frank S. Thomas <frank@thomas-alfeld.de>
 Standards-Version: 3.6.2
-Build-Depends-Indep: @cdbs@, python, python-dev, docbook2x
+Build-Depends-Indep: @cdbs@, python, python-dev, docbook2x, docbook-xml
 
 Package: dctrl2xml
 Architecture: all
