@@ -9,14 +9,15 @@ dctrl2xml (0.4) unstable; urgency=low
     - Bumped Standards-Version from 3.6.1 to 3.6.2, no changes required.
   * debian/rules:
     - Don't autogenerate debian/control at build-time with CDBS.
+  * Updated postal address of the Free Software Foundation (FSF).
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Tue,  7 Jun 2005 21:22:03 +0200
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 10 Sep 2005 01:45:46 +0200
 
 dctrl2xml (0.3) unstable; urgency=low
-  
+
   * Rewrote parts of the Debian control parser and switched from xml.dom to
     the python-elementtree module for building the XML tree. This
-    implementation is twice as fast as the old one with xml.dom. 
+    implementation is twice as fast as the old one with xml.dom.
   * Removed the -e / --encoding command line option, because it was only
     needed for the xml.dom module.
   * Added manual page for dctrl2xml.
