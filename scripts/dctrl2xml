@@ -77,8 +77,9 @@ class DebianControlParser:
                 self.pkg[field] = self.ParseFileList(text[field])
             
             elif field == 'description' and text.has_key(field):
-                self.pkg['upstream'] = self.ParseDescription(text[field])     
-                self.pkg['long-description'] = text[field]
+                self.pkg['upstream'] = self.ParseDescription(text[field])    
+                description = re.compile(r'^ \.$', re.M).sub('', text[field])
+                self.pkg['long-description'] = description
             
         return self.pkg
 

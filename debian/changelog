@@ -1,9 +1,14 @@
-dctrl2xml (0.4) UNRELEASED; urgency=low
+dctrl2xml (0.4) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * Added example XSL stylesheets for converting dctrl2xml's XML output to
+    XHTML. Thanks to Antonio Ospite <ospite@studenti.unina.it> for providing
+    those stylesheets.
+  * Remove full stops from blank lines in the long description of a package.
   * debian/control.in:
     - Added docbook-xml to Build-Depends to make docbook2x-man happy.
     - Bumped Standards-Version from 3.6.1 to 3.6.2, no changes required.
+  * debian/rules:
+    - Don't autogenerate debian/control at build-time with CDBS.
 
  -- Frank S. Thomas <frank@thomas-alfeld.de>  Tue,  7 Jun 2005 21:22:03 +0200
 

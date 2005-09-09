@@ -87,6 +87,8 @@
           <para><command>dctrl2xml</command> can be used in pipes. This
             example outputs an XML representation of the package records of
             the hello and build-essential packages to standard output.</para>
+          <para>You can also use <command>apt-cache showsrc</command> to
+            output an XML representation of source package records.</para>
         </listitem>
       </varlistentry>
     </variablelist>
