@@ -39,7 +39,7 @@ class DebianControlParser:
         self.contacts = ['maintainer', 'changed-by', 'uploaders']
         self.relations = ['depends', 'pre-depends', 'suggests', 'recommends',
             'conflicts', 'provides', 'replaces', 'enhances', 'build-depends',
-            'build-depends-indep', 'build-conflicts']
+            'build-depends-indep', 'build-conflicts', 'build-conflicts-indep']
        
 
     def ParsePackageString(self, pkg_str):

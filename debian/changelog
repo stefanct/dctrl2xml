@@ -11,7 +11,7 @@ dctrl2xml (0.4) unstable; urgency=low
     - Don't autogenerate debian/control at build-time with CDBS.
   * Updated postal address of the Free Software Foundation (FSF).
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 10 Sep 2005 01:45:46 +0200
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 10 Sep 2005 02:37:39 +0200
 
 dctrl2xml (0.3) unstable; urgency=low
 
