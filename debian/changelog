@@ -2,7 +2,7 @@ dctrl2xml (0.4) unstable; urgency=low
 
   * Added example XSL stylesheets for converting dctrl2xml's XML output to
     XHTML. Thanks to Antonio Ospite <ospite@studenti.unina.it> for providing
-    those stylesheets.
+    these stylesheets.
   * Remove full stops from blank lines in the long description of a package.
   * debian/control.in:
     - Added docbook-xml to Build-Depends to make docbook2x-man happy.

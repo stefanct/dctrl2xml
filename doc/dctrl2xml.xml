@@ -7,7 +7,7 @@
   <!ENTITY dhusername  "Frank S. Thomas">
   <!ENTITY dhemail     "<email>frank@thomas-alfeld.de</email>">
   <!ENTITY dhpackage   "dctrl2xml">
-  <!ENTITY dhdate      "<date>June 07, 2005</date>">
+  <!ENTITY dhdate      "<date>September 10, 2005</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
