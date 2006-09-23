@@ -2,8 +2,8 @@ Source: dctrl2xml
 Section: utils
 Priority: optional
 Maintainer: Frank S. Thomas <frank@thomas-alfeld.de>
-Standards-Version: 3.6.2
-Build-Depends-Indep: @cdbs@, python, python-dev, docbook2x, docbook-xml
+Standards-Version: 3.7.2
+Build-Depends: @cdbs@, docbook2x, docbook-xml
 
 Package: dctrl2xml
 Architecture: all
