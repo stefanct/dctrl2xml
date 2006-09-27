@@ -1,3 +1,9 @@
+dctrl2xml (0.6) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Sun, 24 Sep 2006 03:04:02 +0200
+
 dctrl2xml (0.5) unstable; urgency=low
 
   * scripts/dctrl2xml: Use /usr/bin/python instead of /usr/bin/python2.3 as
