@@ -1,8 +1,15 @@
-dctrl2xml (0.6) UNRELEASED; urgency=low
+dctrl2xml (0.6) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * scripts/dctrl2xml:
+    - Now parses also debtags. Facets and tags are both elements and tags are
+      always empty. Colons in tags are replaced with a hyphen.
+    - Removed the second level <package> element which was a duplicate of
+      the <name> element.
+  * doc/dctrl2xml.xml: Added an example which pipes dctrl2xml's output to
+    xmllint to reformat and reindent the XML to make it easier to read.
+  * debian/control: Added homepage field to long description.
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Sun, 24 Sep 2006 03:04:02 +0200
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu,  1 Mar 2007 17:28:21 +0100
 
 dctrl2xml (0.5) unstable; urgency=low
 

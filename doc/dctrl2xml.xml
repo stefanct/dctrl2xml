@@ -7,7 +7,7 @@
   <!ENTITY dhusername  "Frank S. Thomas">
   <!ENTITY dhemail     "<email>frank@thomas-alfeld.de</email>">
   <!ENTITY dhpackage   "dctrl2xml">
-  <!ENTITY dhdate      "<date>September 10, 2005</date>">
+  <!ENTITY dhdate      "<date>March 01, 2007</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -19,7 +19,7 @@
   This file is licensed under the terms of the GNU General Public License,
   Version 2 or any later version published by the Free Software Foundation.
 
-  Copyright 2005 Frank S. Thomas <frank@thomas-alfeld.de>
+  Copyright 2005, 2007 Frank S. Thomas <frank@thomas-alfeld.de>
 -->
 
 <refentry>
@@ -32,7 +32,7 @@
       &dhsurname;  
     </author>
     <copyright>
-      <year>2005</year>
+      <year>2005, 2007</year>
       <holder>&dhusername;</holder>
     </copyright>
     &dhdate;
@@ -89,6 +89,15 @@
             the hello and build-essential packages to standard output.</para>
           <para>You can also use <command>apt-cache showsrc</command> to
             output an XML representation of source package records.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+       <term>apt-cache show hello | dctrl2xml | xmllint --format -</term>
+        <listitem>
+          <para>In this example the program <command>xmllint</command> is used
+            to reformat and reindent <command>dctrl2xml</command>'s output to
+            make the XML more human readable. <command>xmllint</command> is
+            part of the Debian package libxml2-utils.</para>
         </listitem>
       </varlistentry>
     </variablelist>

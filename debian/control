@@ -11,3 +11,5 @@ Depends: ${python:Depends}, python-elementtree
 Description: Debian package control file to XML converter
  The dctrl2xml program converts the content of Debian package control
  files into a XML representation.
+ .
+  Homepage: http://frank.thomas-alfeld.de/download/debian/dctrl2xml/
