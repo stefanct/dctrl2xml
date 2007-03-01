@@ -1,3 +1,9 @@
+dctrl2xml (0.7) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu,  1 Mar 2007 17:38:41 +0100
+
 dctrl2xml (0.6) unstable; urgency=low
 
   * scripts/dctrl2xml:
