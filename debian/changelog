@@ -1,8 +1,9 @@
 dctrl2xml (0.7) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
+    docbook2x-man adds those now itself.
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Thu,  1 Mar 2007 17:38:41 +0100
+ -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 19 May 2007 12:41:59 +0200
 
 dctrl2xml (0.6) unstable; urgency=low
 
