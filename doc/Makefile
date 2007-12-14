@@ -1,7 +1,7 @@
-all: clean build
+all: dctrl2xml.1
 
-build:
-	docbook2x-man dctrl2xml.xml
+%.1: %.xml
+	docbook2x-man $<
 
 clean:
 	rm -f dctrl2xml.1

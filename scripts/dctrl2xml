@@ -1,12 +1,12 @@
 #!/usr/bin/python
-# $Id$
+# -*- coding: utf-8 -*-
 #
 # dctrl2xml - a Debian control file to XML converter
-# Copyright (C) 2005-2007 by Frank S. Thomas <frank@thomas-alfeld.de>
+# Copyright © 2005-2007 by Frank S. Thomas <fst@debian.org>
 #
-# This program is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,9 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
 import re
@@ -27,10 +25,11 @@ import optparse
 import types
 import copy
 
+from debian_bundle import deb822
 from elementtree.ElementTree import Element, SubElement, dump
 
 __author__ = 'Frank S. Thomas'
-__version__ = '$Revision$'
+__version__ = '0.7'
 
 
 class DebianControlParser:
@@ -39,57 +38,48 @@ class DebianControlParser:
         self.contacts = ['maintainer', 'changed-by', 'uploaders']
         self.relations = ['depends', 'pre-depends', 'suggests', 'recommends',
             'conflicts', 'provides', 'replaces', 'enhances', 'build-depends',
-            'build-depends-indep', 'build-conflicts', 'build-conflicts-indep']
+            'build-depends-indep', 'build-conflicts', 'build-conflicts-indep',
+            'breaks']
 
 
-    def ParsePackageString(self, pkg_str):
-        self.pkg = {}
-        text = {}
+    def parse_package_string(self, pkg_str):
+        self.pkg = deb822.Deb822(pkg_str)
 
-        for line in pkg_str.split('\n'):
-            if not line:
-                break
-            if line[0] == ' ' and field:
-                if text.has_key(field):
-                    text[field] += line + '\n'
-                else:
-                    text[field] = line + '\n'
-            else:
-                colon = line.find(':')
-                field = line[:colon].lower()
-                value = line[colon+1:].lstrip()
+        pkg = {}
+        for orig_field in self.pkg:
+            field = orig_field.lower()
 
-                self.pkg[field] = value
-
-        pkg = copy.copy(self.pkg)
-
-        for field in pkg:
             if field in self.contacts:
-                self.pkg[field] = self.ParseContacts(self.pkg[field])
+                pkg[field] = self.parse_contacts(self.pkg[field])
 
             elif field in self.relations:
-                self.pkg[field] = self.ParseRelations(self.pkg[field])
+                pkg[field] = self.parse_relations(self.pkg[field])
 
             elif field == 'package':
-                self.pkg['name'] = self.pkg[field]
-                del self.pkg[field]
+                pkg['name'] = self.pkg[field]
 
-            elif field == 'files' and text.has_key(field):
-                self.pkg[field] = self.ParseFileList(text[field])
+            elif field == 'files':
+                pkg[field] = self.parse_filelist(self.pkg[field])
 
-            elif field == 'description' and text.has_key(field):
-                self.pkg['upstream'] = self.ParseDescription(text[field])    
-                description = re.compile(r'^ \.$', re.M).sub('', text[field])
-                self.pkg['long-description'] = description
+            elif field == 'description':
+                m = re.search(r'\n', self.pkg[field])
+                if m:
+                    pkg[field] = self.pkg[field][:m.start()]
+                    pkg['long-description'] = self.pkg[field][m.end():]
+                else:
+                    pkg[field] = self.pkg[field]
 
             elif field == 'tag':
-                self.pkg['debtags'] = self.ParseDebtags(self.pkg[field])
-                del self.pkg[field]
+                pkg['debtags'] = self.parse_debtags(self.pkg[field])
+            
+            else:
+                pkg[field] = self.pkg[field]
 
+        self.pkg = pkg
         return self.pkg
 
 
-    def ParseContacts(self, contacts_str):
+    def parse_contacts(self, contacts_str):
         contacts_list = []
 
         for contact in contacts_str.split(','):
@@ -103,11 +93,11 @@ class DebianControlParser:
         return contacts_list
 
 
-    def ParseFileList(self, files_str):
+    def parse_filelist(self, files_str):
         files = {}
         files_re = {'dsc': '.*\.dsc',
             'diff': '.*\.diff\.gz',
-            'orig': '.*\.orig\.tar\.(gz|bz2)'}
+            'tarball': '.*\.tar\.(gz|bz2)'}
 
         for line in re.finditer(r' ([\da-f]{32}.*)', files_str):
             attrs = line.group(1).split()
@@ -121,36 +111,21 @@ class DebianControlParser:
         return files
 
 
-    def ParseDescription(self, desc_str):
-        upstream = {}
-        upstream_re = r'.*^ (Author|Homepage):\s*(.*)$'
-        it = re.compile(upstream_re, re.M+re.S).finditer(desc_str)
-
-        for match in it:
-            if match.group(1) == 'Author':
-                upstream['author'] = self.ParseContacts(match.group(2))
-
-            elif match.group(1) == 'Homepage':
-                upstream['homepage'] = match.group(2)
-
-        return upstream
-
-
-    def ParseRelations(self, relations_str):
+    def parse_relations(self, relations_str):
         relations_list = []
 
         for relation in relations_str.split(','):
             if re.search('\|', relation):
                 alts = relation.split('|')
-                alts_list = [self.ParseRelation(alt) for alt in alts]
+                alts_list = [self.parse_relation(alt) for alt in alts]
                 relations_list.append({'alternative': alts_list})
             else:
-                relations_list.append(self.ParseRelation(relation))
+                relations_list.append(self.parse_relation(relation))
 
         return relations_list
 
 
-    def ParseRelation(self, relation_str):
+    def parse_relation(self, relation_str):
         relation = {}
         relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
 
@@ -181,7 +156,7 @@ class DebianControlParser:
         return {'package': relation}
 
 
-    def ParseDebtags(self, debtags_str):
+    def parse_debtags(self, debtags_str):
         facets = {}
 
         for tag_str in debtags_str.split(','):
@@ -201,15 +176,15 @@ class DebianControl2XMLConverter:
         self.root = root
 
 
-    def CreateXMLTree(self, pkg):
+    def create_xml_tree(self, pkg):
         node = SubElement(self.root, 'package')
         for name, value in pkg.iteritems():
-            node.append(self.createNode(name, value))
+            node.append(self.create_node(name, value))
 
         return node
 
 
-    def createNode(self, name, value):
+    def create_node(self, name, value):
         node = Element(name)
 
         if type(value) is types.StringType:
@@ -217,13 +192,13 @@ class DebianControl2XMLConverter:
 
         elif type(value) is types.DictType:
             for new_name in value:
-                child = self.createNode(new_name, value[new_name])
+                child = self.create_node(new_name, value[new_name])
                 node.append(child)
 
         elif type(value) is types.ListType:
             for item in value:
                 for new_name, new_value in item.iteritems():
-                    child = self.createNode(new_name, new_value)
+                    child = self.create_node(new_name, new_value)
                     node.append(child)
 
         return node
@@ -241,8 +216,8 @@ def main():
     for package in packages:
         package = package.strip()
         if package != '':
-            pkg = parser.ParsePackageString(package)
-            converter.CreateXMLTree(pkg)
+            pkg = parser.parse_package_string(package)
+            converter.create_xml_tree(pkg)
 
     print '<?xml version="1.0" encoding="UTF-8"?>'
     dump(root)

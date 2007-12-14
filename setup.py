@@ -1,15 +1,13 @@
 #!/usr/bin/python
-# $Id$
 
 from distutils.core import setup
 
 args = {
     'name': 'dctrl2xml',
-    'version': '0.6',
+    'version': '0.7',
     'description': 'Debian package control file to XML converter',
     'author': 'Frank S. Thomas',
-    'author_email': 'frank@thomas-alfeld.de',
-    'url': 'http://frank.thomas-alfeld.de/download/debian/dctrl2xml/',
+    'author_email': 'fst@debian.org',
     'license': 'GNU GPL',
     'scripts': (
         'scripts/dctrl2xml',

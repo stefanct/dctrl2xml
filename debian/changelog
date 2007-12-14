@@ -1,9 +1,23 @@
-dctrl2xml (0.7) UNRELEASED; urgency=low
+dctrl2xml (0.7) unstable; urgency=low
 
+  * Initial upload to Debian. (closes: #999999)
+  * scripts/dctrl2xml:
+    - DebianControlParser.parse_package_string() has been very much simplified
+      by using Deb822 from the debian_bundle.deb822 module. This requires a
+      dependency on the python-debian package.
+    - Do not parse the long description for upstream author or homepage. The
+      Homepage field is a proper control field since dpkg 1.14.6 and the
+      Author pseudo field in the long description is not widely used.
+    - Added Breaks to the list of package relations.
   * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
     docbook2x-man adds those now itself.
+  * debian/control.in:
+    - Bumped Standards-Version from 3.7.2 to 3.7.3, no changes required.
+    - Removed Homepage pseudo field from description, there is no homepage.
+  * debian/rules: Do not ignore "make clean" errors.
+  * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 19 May 2007 12:41:59 +0200
+ -- Frank S. Thomas <fst@debian.org>  Fri, 14 Dec 2007 13:35:12 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
@@ -36,8 +50,7 @@ dctrl2xml (0.4) unstable; urgency=low
   * debian/control.in:
     - Added docbook-xml to Build-Depends to make docbook2x-man happy.
     - Bumped Standards-Version from 3.6.1 to 3.6.2, no changes required.
-  * debian/rules:
-    - Don't autogenerate debian/control at build-time with CDBS.
+  * debian/rules: Don't autogenerate debian/control at build-time with CDBS.
   * Updated postal address of the Free Software Foundation (FSF).
 
  -- Frank S. Thomas <frank@thomas-alfeld.de>  Sat, 10 Sep 2005 02:37:39 +0200

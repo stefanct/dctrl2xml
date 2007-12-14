@@ -14,4 +14,4 @@ build/dctrl2xml::
 	$(MAKE) -C doc
 
 clean::
-	-$(MAKE) -C doc clean
+	$(MAKE) -C doc clean

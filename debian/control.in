@@ -1,15 +1,13 @@
 Source: dctrl2xml
 Section: utils
 Priority: optional
-Maintainer: Frank S. Thomas <frank@thomas-alfeld.de>
-Standards-Version: 3.7.2
+Maintainer: Frank S. Thomas <fst@debian.org>
+Standards-Version: 3.7.3
 Build-Depends: @cdbs@, docbook2x, docbook-xml
 
 Package: dctrl2xml
 Architecture: all
-Depends: ${python:Depends}, python-elementtree
+Depends: ${python:Depends}, python-debian, python-elementtree
 Description: Debian package control file to XML converter
  The dctrl2xml program converts the content of Debian package control
  files into a XML representation.
- .
-  Homepage: http://frank.thomas-alfeld.de/download/debian/dctrl2xml/
