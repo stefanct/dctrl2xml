@@ -1,6 +1,6 @@
 dctrl2xml (0.7) unstable; urgency=low
 
-  * Initial upload to Debian. (closes: #999999)
+  * Initial upload to Debian. (closes: #456597)
   * dctrl2xml:
     - DebianControlParser.parse_package_string() has been very much simplified
       by using Deb822 from the debian_bundle.deb822 module. This requires a
@@ -19,7 +19,7 @@ dctrl2xml (0.7) unstable; urgency=low
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 16 Dec 2007 21:39:58 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 16 Dec 2007 22:09:35 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
