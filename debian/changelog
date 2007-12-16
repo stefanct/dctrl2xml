@@ -1,7 +1,7 @@
 dctrl2xml (0.7) unstable; urgency=low
 
   * Initial upload to Debian. (closes: #999999)
-  * scripts/dctrl2xml:
+  * dctrl2xml:
     - DebianControlParser.parse_package_string() has been very much simplified
       by using Deb822 from the debian_bundle.deb822 module. This requires a
       dependency on the python-debian package.
@@ -11,14 +11,14 @@ dctrl2xml (0.7) unstable; urgency=low
     - Added Breaks to the list of package relations.
   * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
     docbook2x-man adds those now itself.
-  * debian/control.in:
+  * debian/control:
     - Bumped Standards-Version from 3.7.2 to 3.7.3, no changes required.
     - Removed Homepage pseudo field from description, there is no homepage.
     - Added Vcs-{Git,Browser} fields to the source stanza.
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Fri, 14 Dec 2007 16:07:49 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 16 Dec 2007 18:56:24 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
