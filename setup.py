@@ -9,9 +9,7 @@ args = {
     'author': 'Frank S. Thomas',
     'author_email': 'fst@debian.org',
     'license': 'GNU GPL',
-    'scripts': (
-        'scripts/dctrl2xml',
-    )
+    'scripts': ['dctrl2xml']
 }
 
 if __name__ == '__main__':
