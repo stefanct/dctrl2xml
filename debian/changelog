@@ -15,10 +15,11 @@ dctrl2xml (0.7) unstable; urgency=low
     - Bumped Standards-Version from 3.7.2 to 3.7.3, no changes required.
     - Removed Homepage pseudo field from description, there is no homepage.
     - Added Vcs-{Git,Browser} fields to the source stanza.
+    - Reworked the short description and enhanced the long description.
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 16 Dec 2007 18:56:24 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 16 Dec 2007 21:39:58 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 

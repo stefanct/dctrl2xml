@@ -10,6 +10,14 @@ Vcs-Browser: http://git.debian.org/?p=users/fst/dctrl2xml.git
 Package: dctrl2xml
 Architecture: all
 Depends: ${python:Depends}, python-debian, python-elementtree
-Description: Debian package control file to XML converter
- The dctrl2xml program converts the content of Debian package control
- files into a XML representation.
+Description: convert Debian control data to XML
+ This package contains the dctrl2xml tool that converts Debian control
+ data into an XML representation. It can be used to convert data which
+ is normally found in debian/control, .changes, .dsc, Packages,
+ Sources, and similar files to XML.
+ .
+ For most fields dctrl2xml just uses the field name as element name and
+ the field data as element content. For other fields like package
+ interrelationship fields (Depends, Build-Depends, etc.) or the Files
+ field in .changes or Sources files dctrl2xml additionally parses their
+ field data to represent it in a more fine structured form.
