@@ -46,7 +46,7 @@
 
   <refnamediv>
     <refname>dctrl2xml</refname>
-    <refpurpose>a Debian package control file to XML converter</refpurpose>
+    <refpurpose>Debian control data to XML converter</refpurpose>
   </refnamediv>
   
   <refsynopsisdiv>
