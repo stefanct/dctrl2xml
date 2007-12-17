@@ -64,8 +64,14 @@ class DebianControlParser:
             elif field == 'description':
                 m = re.search(r'\n', self.pkg[field])
                 if m:
-                    pkg[field] = self.pkg[field][:m.start()]
-                    pkg['long-description'] = self.pkg[field][m.end():]
+                    synopsis = self.pkg[field][:m.start()].strip()
+                    extended = self.pkg[field][m.end():].strip()
+
+                    if len(synopsis) == 0:
+                        pkg[field] = extended
+                    else:
+                        pkg[field] = synopsis
+                        pkg['long-description'] = extended
                 else:
                     pkg[field] = self.pkg[field]
 
