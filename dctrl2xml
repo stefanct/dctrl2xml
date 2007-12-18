@@ -290,8 +290,9 @@ def get_file_obj(filename):
 
 def parse_options():
     parser = optparse.OptionParser()
-    parser.add_option('-f', '--file', dest='filename',
-                      default='', metavar='FILE')
+    parser.add_option('-f', '--file',
+        dest='filename', default='', metavar='FILE',
+        help='read control data from file FILE instead of stdin')
 
     (opts, args) = parser.parse_args()
     return opts
