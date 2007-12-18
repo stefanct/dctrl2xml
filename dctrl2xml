@@ -142,7 +142,7 @@ class DebianControlParser:
 
     def parse_relation(self, relation_str):
         relation = {}
-        relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
+        relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{1,2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
 
         match = re.match(relation_re, relation_str.strip())
         if match:
