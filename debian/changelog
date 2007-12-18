@@ -9,8 +9,7 @@ dctrl2xml (0.7) unstable; urgency=low
       Homepage field is a proper control field since dpkg 1.14.6 and the
       Author pseudo field in the long description is not widely used.
     - Added Breaks to the list of package relations.
-    - Improved the parsing of the description field if the field data begins
-      with whitespace followed by a newline.
+    - Improved the parsing of the Description and Files fields.
   * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
     docbook2x-man adds those now itself.
   * debian/control:
@@ -22,7 +21,7 @@ dctrl2xml (0.7) unstable; urgency=low
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 00:23:47 +0100
+ -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 00:51:37 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
