@@ -77,8 +77,8 @@ class DebianControlParser:
                 else:
                     pkg[field] = self.pkg[field]
 
-            elif field == 'tag':
-                pkg['debtags'] = self.parse_debtags(self.pkg[field])
+            #elif field == 'tag':
+            #    pkg['debtags'] = self.parse_debtags(self.pkg[field])
             
             else:
                 pkg[field] = self.pkg[field]
@@ -175,14 +175,21 @@ class DebianControlParser:
 
     def parse_debtags(self, debtags_str):
         facets = {}
+        debtags_str = debtags_str.replace('+', 'p')
 
-        for tag_str in debtags_str.split(','):
+        for tag_str in debtags_str.split(', '):
             debtag = tag_str.strip().split('::')
             debtag[1] = debtag[1].replace(':', '-')
 
             if not facets.has_key(debtag[0]):
                 facets[debtag[0]] = []
-            facets[debtag[0]].append({debtag[1]: ''})
+            
+            match = re.match(r'{(.*)}', debtag[1])
+            if match:
+                for tag in match.group(1).split(','):
+                    facets[debtag[0]].append({tag: ''})
+            else:
+                facets[debtag[0]].append({debtag[1]: ''})
 
         return facets
 
