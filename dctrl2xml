@@ -189,12 +189,8 @@ class DebianControlParser:
 
 class DebianControl2XMLConverter:
 
-    def __init__(self, root):
-        self.root = root
-
-
     def create_xml_tree(self, pkg):
-        node = SubElement(self.root, 'package')
+        node = Element('package')
         for name, value in pkg.iteritems():
             node.append(self.create_node(name, value))
 
@@ -223,50 +219,25 @@ class DebianControl2XMLConverter:
 
 def main():
     opts = parse_options()
-    packages = read_packages(opts.filename)
-
-    root = Element('packages')
+    file_obj = get_file_obj(opts.filename)
 
     parser = DebianControlParser()
-    converter = DebianControl2XMLConverter(root)
-
-    for package in packages:
-        package = package.strip()
-        if package != '':
-            pkg = parser.parse_package_string(package)
-            converter.create_xml_tree(pkg)
+    converter = DebianControl2XMLConverter()
 
     print '<?xml version="1.0" encoding="UTF-8"?>'
-    dump(root)
+    print '<packages>'
+
+    data = ''
+    for line in file_obj.readlines():
+        data += line
+        if line.strip() == '':
+            if data.strip() != '':
+                pkg = parser.parse_package_string(data)
+                dump(converter.create_xml_tree(pkg))
+            data = ''
+
+    print '</packages>'
     return
-
-
-def read_packages(filename):
-    if filename == '':
-        packages = sys.stdin.read()
-    else:
-        packages = read_packages_from_file(filename)
-
-    packages = re.compile('^\n', re.M).split(packages)
-    return packages
-
-
-def read_packages_from_file(filename):
-    extension = filename.split('.')[-1]
-    if extension == 'gz':
-        file_obj = gzip.GzipFile
-    elif extension == 'bz2':
-        file_obj = bz2.BZ2File
-    else:
-        file_obj = file
-
-    try:
-        content = file_obj(filename, 'r').read()
-    except IOError, error:
-        sys.stderr.write(error)
-        sys.exit(error.args[0]);
-
-    return content
 
 
 def get_file_obj(filename):
@@ -284,6 +255,12 @@ def get_file_obj(filename):
             file_obj = zipfile.ZipFile
         else:
             file_obj = file
+
+        try:
+            file_obj = file_obj(filename, 'r')
+        except IOError, error:
+            sys.stderr.write(error.__str__())
+            sys.exit(error.args[0])
 
     return file_obj
 

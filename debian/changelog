@@ -10,6 +10,9 @@ dctrl2xml (0.7) unstable; urgency=low
       Author pseudo field in the long description is not widely used.
     - Added Breaks to the list of package relations.
     - Improved the parsing of the Description and Files fields.
+    - Instead of reading entire files, read them line by line and dump the XML
+      tree after an empty line occured. This improves dctrl2xml's performance
+      and decreases it's memory usage.
   * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
     docbook2x-man adds those now itself.
   * debian/control:
@@ -21,7 +24,7 @@ dctrl2xml (0.7) unstable; urgency=low
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 07:15:43 +0100
+ -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 19:07:54 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
