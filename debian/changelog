@@ -21,7 +21,7 @@ dctrl2xml (0.7) unstable; urgency=low
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 00:51:37 +0100
+ -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 07:15:43 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 
