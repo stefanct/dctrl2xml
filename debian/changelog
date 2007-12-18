@@ -13,8 +13,10 @@ dctrl2xml (0.7) unstable; urgency=low
     - Instead of reading entire files, read them line by line and dump the XML
       tree after an empty line occured. This improves dctrl2xml's performance
       and decreases it's memory usage.
-  * doc/dctrl2xml.xml: Removed &lt; and &gt; from email elements, because
-    docbook2x-man adds those now itself.
+  * doc/dctrl2xml.xml:
+    - Added the DESCRIPTION section and updated the examples.
+    - Removed &lt; and &gt; from email elements, because docbook2x-man adds
+      those now itself.
   * debian/control:
     - Bumped Standards-Version from 3.7.2 to 3.7.3, no changes required.
     - Removed Homepage pseudo field from description, there is no homepage.
@@ -24,7 +26,7 @@ dctrl2xml (0.7) unstable; urgency=low
   * debian/rules: Do not ignore "make clean" errors.
   * Changed my email address to fst@debian.org.
 
- -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 19:07:54 +0100
+ -- Frank S. Thomas <fst@debian.org>  Tue, 18 Dec 2007 21:22:44 +0100
 
 dctrl2xml (0.6) unstable; urgency=low
 

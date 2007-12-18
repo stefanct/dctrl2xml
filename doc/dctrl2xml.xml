@@ -7,7 +7,8 @@
   <!ENTITY dhusername  "Frank S. Thomas">
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
-  <!ENTITY dhdate      "<date>May 19, 2007</date>">
+  <!ENTITY dhcommand   "<command>dctrl2xml</command>">
+  <!ENTITY dhdate      "<date>Dec 18, 2007</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -51,15 +52,28 @@
   
   <refsynopsisdiv>
     <cmdsynopsis>
-      <command>&dhpackage;</command>
+      &dhcommand;
       <arg><replaceable>options</replaceable></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
 
   <refsect1>
+    <title>DESCRIPTION</title>
+    <para>&dhcommand; is a tool that converts Debian control data into an XML
+      representation. It can be used to convert data which is normally found
+      in debian/control, .changes, .dsc, Packages, Sources, and similar files
+      to XML. </para>
+    <para>For most fields &dhcommand; just uses the field name as element name
+      and the field data as element content. For other fields, such as package
+      interrelationship fields (Depends, Build-Depends, etc.) or the Files
+      field in .changes or Sources files, &dhcommand; additionally parses
+      their field data to represent it in a more fine-structured form.</para>
+  </refsect1>
+
+  <refsect1>
     <title>OPTIONS</title>
-    <para>For a full summary of options, run <command>dctrl2xml 
-      --help</command>.</para>
+    <para>For a full summary of options, run &dhcommand;
+      <option>--help</option>.</para>
 
     <variablelist>
       <varlistentry>
@@ -70,10 +84,11 @@
       </varlistentry>
 
       <varlistentry>
-        <term><option>-fFILE, --file=FILE</option></term>
+        <term><option>-f <replaceable>FILE</replaceable>,
+          --file=<replaceable>FILE</replaceable></option></term>
         <listitem>
-          <para>Read Debian control structure from file 
-            <replaceable>FILE</replaceable>.</para>
+          <para>Read Debian control data from file
+            <replaceable>FILE</replaceable> instead of standard input.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -83,22 +98,30 @@
     <title>EXAMPLES</title>
     <variablelist>
       <varlistentry>
-        <term>apt-cache show hello build-essential | dctrl2xml</term>
+        <term>dctrl2xml -f /var/lib/dpkg/available</term>
         <listitem>
-          <para><command>dctrl2xml</command> can be used in pipes. This
-            example outputs an XML representation of the package records of
-            the hello and build-essential packages to standard output.</para>
-          <para>You can also use <command>apt-cache showsrc</command> to
-            output an XML representation of source package records.</para>
+          <para>Convert the whole dpkg available file to XML and print it to
+            standard output. This is a typical stress test for
+            &dhcommand;.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-       <term>apt-cache show hello | dctrl2xml | xmllint --format -</term>
+        <term>apt-cache show hello build-essential | dctrl2xml</term>
         <listitem>
-          <para>In this example the program <command>xmllint</command> is used
-            to reformat and reindent <command>dctrl2xml</command>'s output to
-            make the XML more human readable. <command>xmllint</command> is
-            part of the Debian package libxml2-utils.</para>
+          <para>Convert the package records of the hello and build-essential
+            packages to XML and print it to standard output. This is an
+            example of how &dhcommand; can be used in pipes where it reads the
+            control data from standard input.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>apt-cache showsrc hello | dctrl2xml | xmllint --format -</term>
+        <listitem>
+          <para>This is similiar to the above example, except that the
+            <command>xmllint</command> tool (which is in the libxml2-utils
+            Debian package) is used to reformat and reindent &dhcommand;'s
+            output to make it more human readable and that the source package
+            records of the hello package are used.</para>
         </listitem>
       </varlistentry>
     </variablelist>
