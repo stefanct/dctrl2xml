@@ -19,11 +19,13 @@
 
 import sys
 import re
-import bz2
-import gzip
 import optparse
 import types
 import copy
+
+import bz2
+import gzip
+import zipfile
 
 from debian_bundle import deb822
 from elementtree.ElementTree import Element, SubElement, dump
@@ -265,6 +267,25 @@ def read_packages_from_file(filename):
         sys.exit(error.args[0]);
 
     return content
+
+
+def get_file_obj(filename):
+    """Return an appropriate file object for filename."""
+
+    if filename == '':
+        file_obj = sys.stdin
+    else:
+        extension = filename.split('.')[-1]
+        if extension == 'gz':
+            file_obj = gzip.GzipFile
+        elif extension == 'bz2':
+            file_obj = bz2.BZ2File
+        elif zipfile.is_zipfile(filename):
+            file_obj = zipfile.ZipFile
+        else:
+            file_obj = file
+
+    return file_obj
 
 
 def parse_options():
