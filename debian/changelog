@@ -1,3 +1,9 @@
+dctrl2xml (0.8) unstable; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Frank S. Thomas <fst@debian.org>  Wed, 19 Dec 2007 16:05:25 +0100
+
 dctrl2xml (0.7) unstable; urgency=low
 
   * Initial upload to Debian. (closes: #456597)
