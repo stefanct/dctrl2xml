@@ -1,8 +1,10 @@
 dctrl2xml (0.8) unstable; urgency=low
 
   * NOT RELEASED YET
+  * dctrl2xml:
+    - Print dctrl2xml's version number if the --version option is given.
 
- -- Frank S. Thomas <fst@debian.org>  Wed, 19 Dec 2007 16:05:25 +0100
+ -- Frank S. Thomas <fst@debian.org>  Wed, 19 Dec 2007 16:40:18 +0100
 
 dctrl2xml (0.7) unstable; urgency=low
 
