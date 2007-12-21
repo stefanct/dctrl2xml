@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>Dec 21, 2007</date>">
+  <!ENTITY dhdate      "<date>Dec 22, 2007</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -107,9 +107,12 @@
       <varlistentry>
         <term>dctrl2xml -f /var/lib/dpkg/available</term>
         <listitem>
-          <para>Convert the whole dpkg available file to XML and print it to
-            standard output. This is a typical stress test for
-            &dhcommand;.</para>
+          <para>Convert the whole 
+            <citerefentry>
+              <refentrytitle>dpkg</refentrytitle>
+              <manvolnum>1</manvolnum>
+            </citerefentry> available file to XML and print it to standard
+            output. This is a typical stress test for &dhcommand;.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -125,13 +128,26 @@
         <term>apt-cache showsrc hello | dctrl2xml | xmllint --format -</term>
         <listitem>
           <para>This is similiar to the above example, except that the
-            <command>xmllint</command> tool (which is in the libxml2-utils
-            Debian package) is used to reformat and reindent &dhcommand;'s
-            output to make it more human readable and that the source package
-            records of the hello package are used.</para>
+            <citerefentry>
+              <refentrytitle>xmllint</refentrytitle>
+              <manvolnum>1</manvolnum>
+            </citerefentry> tool (which is in the libxml2-utils Debian
+            package) is used to reformat and reindent &dhcommand;'s output to
+            make it more human readable and that the source package records of
+            the hello package are used.</para>
         </listitem>
       </varlistentry>
     </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>
+      <citerefentry>
+        <refentrytitle>deb-control</refentrytitle>
+        <manvolnum>5</manvolnum>
+       </citerefentry>
+    </para>
   </refsect1>
 
   <refsect1>
