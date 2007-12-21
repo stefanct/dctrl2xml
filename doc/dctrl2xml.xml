@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>Dec 18, 2007</date>">
+  <!ENTITY dhdate      "<date>Dec 21, 2007</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -16,7 +16,7 @@
 
 <!--
   This is the manual page for dctrl2xml.
-  
+
   This file is licensed under the terms of the GNU General Public License,
   Version 3 or any later version published by the Free Software Foundation.
 
@@ -39,7 +39,7 @@
     </copyright>
     &dhdate;
   </refentryinfo>
-  
+
   <refmeta>
     <refentrytitle>dctrl2xml</refentrytitle>
     <manvolume>1</manvolume>
@@ -49,7 +49,7 @@
     <refname>dctrl2xml</refname>
     <refpurpose>Debian control data to XML converter</refpurpose>
   </refnamediv>
-  
+
   <refsynopsisdiv>
     <cmdsynopsis>
       &dhcommand;
@@ -77,15 +77,22 @@
 
     <variablelist>
       <varlistentry>
-        <term><option>-h, --help</option></term>
+        <term><option>--version</option></term>
+        <listitem>
+          <para>Show dctrl2xml's version number.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-h</option>, <option>--help</option></term>
         <listitem>
           <para>Show help about options.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term><option>-f <replaceable>FILE</replaceable>,
-          --file=<replaceable>FILE</replaceable></option></term>
+        <term><option>-f <replaceable>FILE</replaceable></option>,
+          <option>--file=<replaceable>FILE</replaceable></option></term>
         <listitem>
           <para>Read Debian control data from file
             <replaceable>FILE</replaceable> instead of standard input.</para>
@@ -93,7 +100,7 @@
       </varlistentry>
     </variablelist>
   </refsect1>
-  
+
   <refsect1>
     <title>EXAMPLES</title>
     <variablelist>
@@ -126,10 +133,10 @@
       </varlistentry>
     </variablelist>
   </refsect1>
-  
+
   <refsect1>
     <title>AUTHOR</title>
     <para>Written by &dhusername; &dhemail;.</para>
   </refsect1>
-  
+
 </refentry>

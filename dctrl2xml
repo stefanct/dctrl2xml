@@ -79,7 +79,7 @@ class DebianControlParser:
 
             #elif field == 'tag':
             #    pkg['debtags'] = self.parse_debtags(self.pkg[field])
-            
+
             else:
                 pkg[field] = self.pkg[field]
 
@@ -117,7 +117,7 @@ class DebianControlParser:
                     files[file_type] = {}
                     files[file_type]['md5sum'] = attrs[0]
                     files[file_type]['size'] = attrs[1]
-                    
+
                     if len(attrs) == 3:
                         files[file_type]['filename'] = attrs[2]
                     elif len(attrs) == 5:
@@ -149,7 +149,7 @@ class DebianControlParser:
         match = re.match(relation_re, relation_str.strip())
         if match:
             if match.group(1):
-                relation['name'] = match.group(1)       
+                relation['name'] = match.group(1)
             if match.group(2):
                 relation['relation'] = match.group(3)
                 relation['version'] = match.group(4)
@@ -183,7 +183,7 @@ class DebianControlParser:
 
             if not facets.has_key(debtag[0]):
                 facets[debtag[0]] = []
-            
+
             match = re.match(r'{(.*)}', debtag[1])
             if match:
                 for tag in match.group(1).split(','):
