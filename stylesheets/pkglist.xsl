@@ -13,7 +13,7 @@
     method="xml"
     encoding="UTF-8"
     indent="yes"
-    omit-xml-declaration="yes" />
+    omit-xml-declaration="yes"/>
 
   <!-- The base address of the repository. It is used as prefix in URLs to
        the .deb packages, see the "package" template for details. -->
@@ -22,37 +22,37 @@
   <xsl:template match="packages">
     <div class="pkglist">
       <h2>Package list</h2>
-      <xsl:apply-templates select="package" />
+      <xsl:apply-templates select="package"/>
     </div>
-    <br />
+    <br/>
   </xsl:template>
 
   <xsl:template match="package">
     <div class="package">
       <h3>
-        <xsl:value-of select="name/text()" />
-        (<xsl:value-of select="version/text()" />)
+        <xsl:value-of select="name/text()"/>
+        (<xsl:value-of select="version/text()"/>)
       </h3>
-      <h4><xsl:value-of select="description/text()" /></h4>
+      <h4><xsl:value-of select="description/text()"/></h4>
       <pre>
-        <xsl:value-of select="long-description/text()" />
+        <xsl:value-of select="long-description/text()"/>
       </pre>
       <p>
-        <b>Architecture</b>: <xsl:value-of select="architecture/text()" />
-        (<a href="{$base_address}{filename/text()}">Download</a>)<br />
-        <xsl:apply-templates select="maintainer" />
+        <b>Architecture</b>: <xsl:value-of select="architecture/text()"/>
+        (<a href="{$base_address}{filename/text()}">Download</a>)<br/>
+        <xsl:apply-templates select="maintainer"/>
       </p>
     </div>
   </xsl:template>
 
   <xsl:template match="maintainer">
     <b>Maintainer</b>:
-    <xsl:value-of select="contact/name/text()" />
-    &lt;<xsl:apply-templates select="contact/email" />&gt;<br />
+    <xsl:value-of select="contact/name/text()"/>
+    &lt;<xsl:apply-templates select="contact/email"/>&gt;<br/>
   </xsl:template>
 
   <xsl:template match="email">
-    <a href="mailto:{text()}"><tt><xsl:value-of select="text()" /></tt></a>
+    <a href="mailto:{text()}"><tt><xsl:value-of select="text()"/></tt></a>
   </xsl:template>
 
 </xsl:stylesheet>

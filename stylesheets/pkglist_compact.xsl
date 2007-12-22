@@ -14,7 +14,7 @@
     method="xml"
     encoding="UTF-8"
     indent="yes"
-    omit-xml-declaration="yes" />
+    omit-xml-declaration="yes"/>
 
   <!-- The base address of the repository. It is used as prefix in URLs to
        the .deb packages, see the "package" template for details. -->
@@ -31,7 +31,7 @@
             <td>Maintainer</td>
           </tr>
         </thead>
-        <xsl:apply-templates select="package" />
+        <xsl:apply-templates select="package"/>
       </table>
     </div>
   </xsl:template>
@@ -39,18 +39,18 @@
   <xsl:template match="package">
     <tr>
       <td>
-        <xsl:value-of select="name/text()" />
+        <xsl:value-of select="name/text()"/>
         (<a href="{$base_address}{filename/text()}"
-          ><xsl:value-of select="version/text()" /></a>)
+          ><xsl:value-of select="version/text()"/></a>)
       </td>
-      <td><xsl:value-of select="architecture/text()" /></td>
-      <td><xsl:apply-templates select="maintainer" /></td>
+      <td><xsl:value-of select="architecture/text()"/></td>
+      <td><xsl:apply-templates select="maintainer"/></td>
     </tr>
   </xsl:template>
 
   <xsl:template match="maintainer">
     <a href="mailto:{contact/email/text()}"
-      ><xsl:value-of select="contact/name/text()" /></a>
+      ><xsl:value-of select="contact/name/text()"/></a>
   </xsl:template>
 
 </xsl:stylesheet>

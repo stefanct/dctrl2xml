@@ -61,7 +61,7 @@ class DebianControlParser:
                 pkg['name'] = self.pkg[field]
 
             elif field == 'date':
-                pkg['date'] = self.pkg[field]
+                pkg[field] = self.pkg[field]
                 pkg['date_iso8601'] = self.parse_date(self.pkg[field])
 
             elif field == 'files':
@@ -71,7 +71,7 @@ class DebianControlParser:
                 m = re.search(r'\n', self.pkg[field])
                 if m:
                     synopsis = self.pkg[field][:m.start()].strip()
-                    extended = self.pkg[field][m.end():].strip()
+                    extended = self.pkg[field][m.end():]
 
                     if len(synopsis) == 0:
                         pkg[field] = extended
@@ -81,8 +81,8 @@ class DebianControlParser:
                 else:
                     pkg[field] = self.pkg[field]
 
-            #elif field == 'tag':
-            #    pkg['debtags'] = self.parse_debtags(self.pkg[field])
+            elif field == 'tag':
+                pkg[field] = self.parse_debtags(self.pkg[field])
 
             else:
                 pkg[field] = self.pkg[field]
@@ -178,24 +178,27 @@ class DebianControlParser:
 
 
     def parse_debtags(self, debtags_str):
-        facets = {}
-        debtags_str = debtags_str.replace('+', 'p')
+        debtags = {}
 
         for tag_str in debtags_str.split(', '):
-            debtag = tag_str.strip().split('::')
-            debtag[1] = debtag[1].replace(':', '-')
+            (facet, tag) = tag_str.strip().split('::', 1)
 
-            if not facets.has_key(debtag[0]):
-                facets[debtag[0]] = []
+            # Replace some characters from tags, otherwise the resulting XML
+            # would not be valid.
+            tag = tag.replace(':', '-').replace('+', 'p').replace('3', '_3')
 
-            match = re.match(r'{(.*)}', debtag[1])
-            if match:
-                for tag in match.group(1).split(','):
-                    facets[debtag[0]].append({tag: ''})
+            if not debtags.has_key(facet):
+                debtags[facet] = []
+
+            # Handle compressed tags, such as "use::{configuring,monitor}".
+            c_tags = re.match(r'{(.*)}', tag)
+            if c_tags:
+                for c_tag in c_tags.group(1).split(','):
+                    debtags[facet].append({c_tag: ''})
             else:
-                facets[debtag[0]].append({debtag[1]: ''})
+                debtags[facet].append({tag: ''})
 
-        return facets
+        return debtags
 
 
     def parse_date(self, rfc2822_date_str):
