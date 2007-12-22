@@ -2,12 +2,14 @@ dctrl2xml (0.8) unstable; urgency=low
 
   * dctrl2xml:
     - Print dctrl2xml's version number if the --version option is given.
+    - Convert RFC 2822 dates in Date fields to a ISO 8601 representation and
+      save them in <date_iso8601> elements.
   * doc/dctrl2xml.xml: Added reference to deb-control(5) to the SEE ALSO
     section.
   * stylesheets/pkglist{,compact}.xsl: Reformatted and added example usage of
     dctrl2xml and the stylesheets with a Packages file.
 
- -- Frank S. Thomas <fst@debian.org>  Sat, 22 Dec 2007 11:38:21 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sat, 22 Dec 2007 14:41:00 +0100
 
 dctrl2xml (0.7) unstable; urgency=low
 
