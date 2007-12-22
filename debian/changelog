@@ -1,12 +1,13 @@
 dctrl2xml (0.8) unstable; urgency=low
 
-  * NOT RELEASED YET
   * dctrl2xml:
     - Print dctrl2xml's version number if the --version option is given.
-  * doc/dctrl2xml.xml:
-    - Added pointer to deb-control(5) to the SEE ALSO section.
+  * doc/dctrl2xml.xml: Added reference to deb-control(5) to the SEE ALSO
+    section.
+  * stylesheets/pkglist{,compact}.xsl: Reformatted and added example usage of
+    dctrl2xml and the stylesheets with a Packages file.
 
- -- Frank S. Thomas <fst@debian.org>  Sat, 22 Dec 2007 00:15:53 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sat, 22 Dec 2007 11:38:21 +0100
 
 dctrl2xml (0.7) unstable; urgency=low
 
