@@ -181,7 +181,11 @@ class DebianControlParser:
         debtags = {}
 
         for tag_str in debtags_str.split(', '):
-            (facet, tag) = tag_str.strip().split('::', 1)
+            tag_splitted = tag_str.strip().split('::', 1)
+            if len(tag_splitted) != 2:
+                continue
+            else:
+                (facet, tag) = tag_splitted
 
             # Replace some characters from tags, otherwise the resulting XML
             # would not be valid.
