@@ -194,7 +194,8 @@ class DebianControlParser:
 
             # Replace some characters from tags, otherwise the resulting XML
             # would not be valid.
-            tag = tag.replace(':', '-').replace('+', 'p').replace('3', '_3')
+            tag = tag.replace(':', '-').replace('+', 'p')
+            tag = re.sub(r'(^|\W)(\d)', '\g<1>_\g<2>', tag)
 
             if not debtags.has_key(facet):
                 debtags[facet] = []
