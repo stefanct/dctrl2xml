@@ -92,17 +92,24 @@ class DebianControlParser:
 
 
     def parse_contacts(self, contacts_str):
-        contacts_list = []
+        contacts = []
 
-        for contact in contacts_str.split(','):
-            match = re.search(r'\s*(.*?)\s*<(.*?)>', contact)
-            if match:
-                c = {'name': match.group(1), 'email': match.group(2)}
-                contacts_list.append({'contact': c})
+        split_re = r'\s*((.+?)\s+?<(.+?)>,?|(.+?)\s+?\((.+?)\),?)'
+        s = re.split(split_re, contacts_str)
+
+        for contact in [s[x:x+6] for x in range(0, len(s), 6)]:
+            if len(contact) != 6:
+                continue
+            elif contact[2] and contact[3]:
+                c = {'name': contact[2], 'email': contact[3]}
+            elif contact[5] and contact[4]:
+                c = {'name': contact[5], 'email': contact[4]}
             else:
-                contacts_list.append({'contact': contact})
+                c = contact_str
 
-        return contacts_list
+            contacts.append({'contact': c})
+
+        return contacts
 
 
     def parse_filelist(self, files_str):
