@@ -104,8 +104,6 @@ class DebianControlParser:
                 c = {'name': contact[2], 'email': contact[3]}
             elif contact[5] and contact[4]:
                 c = {'name': contact[5], 'email': contact[4]}
-            else:
-                c = contact_str
 
             contacts.append({'contact': c})
 
