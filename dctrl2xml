@@ -261,7 +261,7 @@ def main():
     converter = DebianControl2XMLConverter()
 
     print '<?xml version="1.0" encoding="UTF-8"?>'
-    print '<packages>'
+    print '<packages generator="dctrl2xml/' + __version__ + '">'
 
     data = ''
     for line in file_obj.readlines():
