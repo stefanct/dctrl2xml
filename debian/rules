@@ -12,3 +12,9 @@ build/dctrl2xml::
 
 clean::
 	$(MAKE) -C doc clean
+
+test:
+	./dctrl2xml -f /var/lib/dpkg/available | xmllint --format -
+	apt-cache dumpavail | ./dctrl2xml | xmllint --format -
+
+DEB_PHONY_RULES += test

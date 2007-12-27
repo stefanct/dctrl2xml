@@ -1,13 +1,15 @@
 dctrl2xml (0.9) unstable; urgency=low
 
   * dctrl2xml:
-    - Do not fail on truncated tags where the '::' separator is missing.
+    - Do not fail on truncated tags where the "::" separator is missing.
     - Improved contacts parsing to handle strings such as "john@example.org
       (John R. Doe)".
-    - Instead of replacing only '3' with '_3' in tags, prefix all tags that
+    - Instead of replacing only "3" with "_3" in tags, prefix all tags that
       begin with a decimal digit with an underscore.
+  * debian/rules: Added test target that stress tests dctrl2xml with the dpkg
+    available file and the output of "apt-cache dumpavail".
 
- -- Frank S. Thomas <fst@debian.org>  Wed, 26 Dec 2007 17:43:32 +0100
+ -- Frank S. Thomas <fst@debian.org>  Thu, 27 Dec 2007 22:52:41 +0100
 
 dctrl2xml (0.8) unstable; urgency=low
 
