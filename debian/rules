@@ -14,7 +14,9 @@ clean::
 	$(MAKE) -C doc clean
 
 test:
-	./dctrl2xml -f /var/lib/dpkg/available | xmllint --format -
-	apt-cache dumpavail | ./dctrl2xml | xmllint --format -
+	ERRF=`mktemp`; \
+	./dctrl2xml -f /var/lib/dpkg/available 2> $$ERRF | xmllint --format -; \
+	apt-cache dumpavail | ./dctrl2xml 2> $$ERRF | xmllint --format -; \
+	cat $$ERRF
 
 DEB_PHONY_RULES += test
