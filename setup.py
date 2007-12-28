@@ -8,6 +8,7 @@ args = {
     'description': 'Debian control data to XML converter',
     'author': 'Frank S. Thomas',
     'author_email': 'fst@debian.org',
+    'url': 'http://packages.debian.org/sid/dctrl2xml',
     'scripts': ['dctrl2xml'],
     'license': 'GPL-3+'
 }
