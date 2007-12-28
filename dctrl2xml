@@ -67,6 +67,9 @@ class DebianControlParser:
             elif field == 'files':
                 pkg[field] = self.parse_filelist(self.pkg[field])
 
+            elif field == 'conffiles':
+                pkg[field] = self.parse_conffilelist(self.pkg[field])
+
             elif field == 'description':
                 m = re.search(r'\n', self.pkg[field])
                 if m:
@@ -135,6 +138,18 @@ class DebianControlParser:
                         files[file_type]['filename'] = attrs[4]
 
         return files
+
+
+    def parse_conffilelist(self, conffiles_str):
+        conffiles = []
+
+        for line in conffiles_str.split('\n'):
+            m = re.match(r'^\s*(.+)\s+([\da-f]{32})', line)
+            if m:
+                cf = {'conffile': {'name': m.group(1), 'md5sum': m.group(2)}}
+                conffiles.append(cf)
+
+        return conffiles
 
 
     def parse_relations(self, relations_str):

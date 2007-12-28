@@ -8,10 +8,11 @@ dctrl2xml (0.9) unstable; urgency=low
       begin with a decimal digit with an underscore.
     - Added the "generator" attribute, whose value is "dctrl2xml/$VERSION", to
       the topmost element of dctrl2xml's XML output.
+    - Parse also the file list of the Conffiles field.
   * debian/rules: Added test target that stress tests dctrl2xml with the dpkg
     available file and the output of "apt-cache dumpavail".
 
- -- Frank S. Thomas <fst@debian.org>  Thu, 27 Dec 2007 23:14:12 +0100
+ -- Frank S. Thomas <fst@debian.org>  Fri, 28 Dec 2007 00:58:42 +0100
 
 dctrl2xml (0.8) unstable; urgency=low
 
