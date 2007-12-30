@@ -97,14 +97,14 @@ class DebianControlParser:
     def parse_contacts(self, contacts_str):
         """Parse data of the Maintainer, Uploaders, and Changed-By fields."""
 
-        contacts = []
-
         split_re = r'\s*((.+?)\s+?<(.+?)>,?|(.+?)\s+?\((.+?)\),?)'
         s = re.split(split_re, contacts_str)
 
         if len(s) < 6:
             self._err('E: could not parse contact: ' + contacts_str)
             return contacts_str
+
+        contacts = []
 
         for contact in [s[x:x+6] for x in range(0, len(s), 6)]:
             if len(contact) != 6:
