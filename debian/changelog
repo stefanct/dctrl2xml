@@ -13,8 +13,10 @@ dctrl2xml (0.9) unstable; urgency=low
       several fields could not be recognized.
   * debian/rules: Added test target that stress tests dctrl2xml with the dpkg
     available file and the output of "apt-cache dumpavail".
+  * debian/control: Moved python-support from Build-Depends to
+    Build-Depends-Indep, because it is not required for the clean target.
 
- -- Frank S. Thomas <fst@debian.org>  Fri, 28 Dec 2007 10:42:53 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 30 Dec 2007 22:16:24 +0100
 
 dctrl2xml (0.8) unstable; urgency=low
 
