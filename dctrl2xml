@@ -95,15 +95,15 @@ class DebianControlParser:
 
 
     def parse_contacts(self, contacts_str):
-        """Parse contacts in the Maintainer, Uploaders, and Changed-By
-        fields."""
+        """Parse data of the Maintainer, Uploaders, and Changed-By fields."""
+
         contacts = []
 
         split_re = r'\s*((.+?)\s+?<(.+?)>,?|(.+?)\s+?\((.+?)\),?)'
         s = re.split(split_re, contacts_str)
 
         if len(s) < 6:
-            self._err('could not parse contact: ' + contacts_str)
+            self._err('E: could not parse contact: ' + contacts_str)
             return contacts_str
 
         for contact in [s[x:x+6] for x in range(0, len(s), 6)]:
@@ -148,6 +148,7 @@ class DebianControlParser:
 
     def parse_conffilelist(self, conffiles_str):
         """Parse the list of conffiles in the Conffiles field."""
+
         conffiles = []
 
         for line in conffiles_str.split('\n'):
@@ -156,7 +157,7 @@ class DebianControlParser:
                 cf = {'conffile': {'name': m.group(1), 'md5sum': m.group(2)}}
                 conffiles.append(cf)
             elif line.strip() != '':
-                self._err('could not parse Conffiles line: ' + line)
+                self._err('E: could not parse Conffiles line: ' + line)
 
         return conffiles
 
@@ -207,13 +208,14 @@ class DebianControlParser:
 
 
     def parse_debtags(self, debtags_str):
-        """Parse the field data of the Tag field, which contains the package's
-        Debtags."""
+        """Parse the field data of the Tag field (the package's Debtags)."""
+
         debtags = {}
 
         for tag_str in debtags_str.split(', '):
             tag_splitted = tag_str.strip().split('::', 1)
             if len(tag_splitted) != 2:
+                self._err('W: corrupted tag detected: ' + str(tag_splitted))
                 continue
             else:
                 (facet, tag) = tag_splitted
@@ -238,8 +240,8 @@ class DebianControlParser:
 
 
     def parse_date(self, rfc2822_date_str):
-        """Parse a RFC 2822 formatted date string and return its ISO 8601
-        representation as string."""
+        """Convert a RFC 2822 date to its representation in ISO 8601."""
+
         date_str = rfc2822_date_str[:-6]
         zone_str = rfc2822_date_str[-5:]
 
@@ -250,8 +252,9 @@ class DebianControlParser:
 
 
     def _err(self, error_msg):
-        """Print the error message 'error_msg' to stderr."""
-        print >> sys.stderr, 'Error:', error_msg
+        """Print an error message to standard error."""
+
+        print >> sys.stderr, error_msg
         return
 
 
@@ -334,6 +337,8 @@ def get_file_obj(filename):
 
 
 def parse_options():
+    """Parse dctrl2xml's command line options."""
+
     parser = optparse.OptionParser(version="%prog " + __version__)
     parser.add_option('-f', '--file',
         dest='filename', default='', metavar='FILE',
