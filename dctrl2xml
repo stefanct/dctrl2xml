@@ -23,9 +23,7 @@ import optparse
 import types
 import time
 
-import bz2
-import gzip
-import zipfile
+import bz2, gzip, zipfile
 
 from debian_bundle import deb822
 from elementtree.ElementTree import Element, SubElement, dump
@@ -310,6 +308,12 @@ def main():
                 dump(converter.create_xml_tree(pkg))
             data = ''
 
+    # Do not discard the last (or the only) control entry if data input
+    # does not end with an empty line.
+    if data.strip() != '':
+        pkg = parser.parse_package_string(data)
+        dump(converter.create_xml_tree(pkg))
+ 
     print '</packages>'
     return
 

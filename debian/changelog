@@ -11,12 +11,16 @@ dctrl2xml (0.9) unstable; urgency=low
     - Parse also the file list of the Conffiles field.
     - Print error messages to standard error if the format of field data of
       several fields could not be recognized.
+    - Do not fail if 'UTC' is used as time zone designator (as it is done in
+      Release files), although RFC 2822 does not seem to permit this.
+    - Do not discard the last (or the only) control entry if data input does
+      not end with an empty line.
   * debian/rules: Added test target that stress tests dctrl2xml with the dpkg
     available file and the output of "apt-cache dumpavail".
   * debian/control: Moved python-support from Build-Depends to
     Build-Depends-Indep, because it is not required for the clean target.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 30 Dec 2007 22:16:24 +0100
+ -- Frank S. Thomas <fst@debian.org>  Mon, 31 Dec 2007 07:54:57 +0100
 
 dctrl2xml (0.8) unstable; urgency=low
 
