@@ -62,7 +62,7 @@ class DebianControlParser:
 
             elif field == 'date':
                 pkg[field] = self.pkg[field]
-                pkg['date_iso8601'] = self.parse_date(self.pkg[field])
+                pkg['date_iso8601'] = self.parse_date(self.pkg[field].strip())
 
             elif field == 'files':
                 pkg[field] = self.parse_filelist(self.pkg[field])
@@ -242,11 +242,14 @@ class DebianControlParser:
     def parse_date(self, rfc2822_date_str):
         """Convert a RFC 2822 date to its representation in ISO 8601."""
 
-        date_str = rfc2822_date_str[:-6]
-        zone_str = rfc2822_date_str[-5:]
+        date_str = rfc2822_date_str[:25]
+        if rfc2822_date_str.endswith('UTC'):
+            zone_str = 'Z'
+        else:
+            zone_str = rfc2822_date_str[-5:]
 
         date = time.strptime(date_str, '%a, %d %b %Y %H:%M:%S')
-        iso8601_date_str = time.strftime('%Y-%m-%dT%H:%M', date) + zone_str
+        iso8601_date_str = time.strftime('%Y-%m-%dT%H:%M:%S', date) + zone_str
 
         return iso8601_date_str
 
