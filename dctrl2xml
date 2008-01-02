@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # dctrl2xml - Debian control data to XML converter
-# Copyright © 2005-2007 by Frank S. Thomas <fst@debian.org>
+# Copyright © 2005-2008 by Frank S. Thomas <fst@debian.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -295,6 +295,8 @@ def main():
 
     parser = DebianControlParser()
     converter = DebianControl2XMLConverter()
+    print_xml = lambda data: dump(converter.create_xml_tree(
+        parser.parse_package_string(data)))
 
     print '<?xml version="1.0" encoding="UTF-8"?>'
     print '<packages generator="dctrl2xml/' + __version__ + '">'
@@ -302,17 +304,15 @@ def main():
     data = ''
     for line in file_obj.readlines():
         data += line
-        if line.strip() == '':
-            if data.strip() != '':
-                pkg = parser.parse_package_string(data)
-                dump(converter.create_xml_tree(pkg))
+        if line.isspace():
+            if not data.isspace():
+                print_xml(data)
             data = ''
 
-    # Do not discard the last (or the only) control entry if data input
-    # does not end with an empty line.
-    if data.strip() != '':
-        pkg = parser.parse_package_string(data)
-        dump(converter.create_xml_tree(pkg))
+    # Do not discard the last (or the only) control entry
+    # if data input does not end with an empty line.
+    if not data.isspace():
+        print_xml(data)
  
     print '</packages>'
     return
