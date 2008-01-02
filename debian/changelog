@@ -20,7 +20,7 @@ dctrl2xml (0.9) unstable; urgency=low
   * debian/control: Moved python-support from Build-Depends to
     Build-Depends-Indep, because it is not required for the clean target.
 
- -- Frank S. Thomas <fst@debian.org>  Mon, 31 Dec 2007 07:54:57 +0100
+ -- Frank S. Thomas <fst@debian.org>  Wed, 02 Jan 2008 10:11:11 +0100
 
 dctrl2xml (0.8) unstable; urgency=low
 
