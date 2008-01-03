@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
 
@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>Dec 22, 2007</date>">
+  <!ENTITY dhdate      "<date>Jan 03, 2008</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -20,7 +20,7 @@
   This file is licensed under the terms of the GNU General Public License,
   Version 3 or any later version published by the Free Software Foundation.
 
-  Copyright © 2005, 2007 Frank S. Thomas <fst@debian.org>
+  Copyright © 2005, 2007-2008 Frank S. Thomas <fst@debian.org>
 -->
 
 <refentry>
@@ -35,6 +35,7 @@
     <copyright>
       <year>2005</year>
       <year>2007</year>
+      <year>2008</year>
       <holder>&dhusername;</holder>
     </copyright>
     &dhdate;
@@ -105,7 +106,9 @@
     <title>EXAMPLES</title>
     <variablelist>
       <varlistentry>
-        <term>dctrl2xml -f /var/lib/dpkg/available</term>
+        <term>
+          <userinput>dctrl2xml -f /var/lib/dpkg/available</userinput>
+        </term>
         <listitem>
           <para>Convert the whole 
             <citerefentry>
@@ -116,7 +119,10 @@
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term>apt-cache show hello build-essential | dctrl2xml</term>
+        <term>
+          <userinput>apt-cache show hello build-essential |
+            dctrl2xml</userinput>
+        </term>
         <listitem>
           <para>Convert the package records of the hello and build-essential
             packages to XML and print it to standard output. This is an
@@ -125,7 +131,9 @@
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term>apt-cache showsrc hello | dctrl2xml | xmllint --format -</term>
+        <term>
+          <userinput>apt-cache showsrc hello | dctrl2xml | xmllint
+            --format -</userinput></term>
         <listitem>
           <para>This is similiar to the above example, except that the
             <citerefentry>
