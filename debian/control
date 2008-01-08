@@ -2,7 +2,7 @@ Source: dctrl2xml
 Section: utils
 Priority: optional
 Maintainer: Frank S. Thomas <fst@debian.org>
-Build-Depends: cdbs (>= 0.4.49), debhelper (>= 5.0.37.2), python-dev (>= 2.3.5-11)
+Build-Depends: cdbs (>= 0.4.49), debhelper (>= 6), python-dev (>= 2.3.5-11)
 Build-Depends-Indep: python-support (>= 0.5.3), docbook2x, docbook-xml
 Standards-Version: 3.7.3
 Vcs-Git: git://git.debian.org/git/users/fst/dctrl2xml.git
