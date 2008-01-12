@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
-"file:///usr/share/xml/docbook/schema/dtd/4.2/docbookx.dtd" [
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
   <!ENTITY dhfirstname "<firstname>Frank</firstname>">
   <!ENTITY dhsurname   "<surname>Thomas</surname>">
@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>Jan 03, 2008</date>">
+  <!ENTITY dhdate      "<date>12 January 2008</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -54,7 +54,10 @@
   <refsynopsisdiv>
     <cmdsynopsis>
       &dhcommand;
-      <arg><replaceable>options</replaceable></arg>
+      <group>
+        <arg>-f <replaceable>FILE</replaceable></arg>
+        <arg></arg>
+      </group>
     </cmdsynopsis>
   </refsynopsisdiv>
 
