@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>12 January 2008</date>">
+  <!ENTITY dhdate      "<date>22 January 2008</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -99,7 +99,9 @@
           <option>--file=<replaceable>FILE</replaceable></option></term>
         <listitem>
           <para>Read Debian control data from file
-            <replaceable>FILE</replaceable> instead of standard input.</para>
+            <replaceable>FILE</replaceable> instead of standard input.
+            <replaceable>FILE</replaceable> can be either a plain text file or
+            a gzip, bzip2 or ZIP file.</para>
         </listitem>
       </varlistentry>
     </variablelist>
