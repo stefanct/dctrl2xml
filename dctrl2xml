@@ -140,7 +140,7 @@ class DebianControlParser:
                             files[type]['priority'] = fields[3]
                             files[type]['filename'] = fields[4]
 
-            elif line.strip() != '':
+            elif line.strip():
                 self._err('E: could not parse File line: ' + line)
 
         return files
@@ -156,7 +156,7 @@ class DebianControlParser:
             if m:
                 cf = {'conffile': {'name': m.group(1), 'md5sum': m.group(2)}}
                 conffiles.append(cf)
-            elif line.strip() != '':
+            elif line.strip():
                 self._err('E: could not parse Conffiles line: ' + line)
 
         return conffiles
