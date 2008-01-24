@@ -9,8 +9,9 @@ dctrl2xml (0.10) unstable; urgency=low
   * Updated the debhelper compatibility level from V5 to V6 since this is the
     current recommended level and raised the build dependency to "debhelper
     (>= 6)".
+  * dctrl2xml: Improved parse_filelist() and added error handling to it.
 
- -- Frank S. Thomas <fst@debian.org>  Tue, 22 Jan 2008 11:54:32 +0100
+ -- Frank S. Thomas <fst@debian.org>  Thu, 24 Jan 2008 01:04:28 +0100
 
 dctrl2xml (0.9) unstable; urgency=low
 

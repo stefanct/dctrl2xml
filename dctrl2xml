@@ -118,28 +118,30 @@ class DebianControlParser:
 
 
     def parse_filelist(self, files_str):
+        """Parse lines of different file types in the File field."""
         files = {}
-        files_re = {
-            'deb': '.*\.deb',
-            'dsc': '.*\.dsc',
-            'diff': '.*\.diff\.gz',
-            'tarball': '.*\.tar\.(gz|bz2|lzma)'
-        }
+        files_re = {'deb': r'.*\.deb',
+            'dsc': r'.*\.dsc',
+            'diff': r'.*\.diff\.gz',
+            'tarball': r'.*\.tar\.(gz|bz2|lzma)'}
 
-        for line in re.finditer(r' ([\da-f]{32}.*)', files_str):
-            attrs = line.group(1).split()
-            for file_type, file_re in files_re.iteritems():
-                if re.search(file_re, attrs[-1]):
-                    files[file_type] = {}
-                    files[file_type]['md5sum'] = attrs[0]
-                    files[file_type]['size'] = attrs[1]
+        for line in files_str.split('\n'):
+            m = re.match(r'^\s*([\da-f]{32}.*)', line)
+            if m:
+                fields = m.group(1).split()
+                for type, file_re in files_re.iteritems():
+                    if re.search(file_re, fields[-1]):
+                        files[type] = {'md5sum': fields[0], 'size': fields[1]}
 
-                    if len(attrs) == 3:
-                        files[file_type]['filename'] = attrs[2]
-                    elif len(attrs) == 5:
-                        files[file_type]['section'] = attrs[2]
-                        files[file_type]['priority'] = attrs[3]
-                        files[file_type]['filename'] = attrs[4]
+                        if len(fields) == 3:
+                            files[type]['filename'] = fields[2]
+                        elif len(fields) == 5:
+                            files[type]['section'] = fields[2]
+                            files[type]['priority'] = fields[3]
+                            files[type]['filename'] = fields[4]
+
+            elif line.strip() != '':
+                self._err('E: could not parse File line: ' + line)
 
         return files
 
