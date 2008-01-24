@@ -56,7 +56,7 @@
       &dhcommand;
       <group>
         <arg>-f <replaceable>FILE</replaceable></arg>
-        <arg></arg>
+        <arg/>
       </group>
     </cmdsynopsis>
   </refsynopsisdiv>
