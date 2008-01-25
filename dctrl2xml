@@ -85,6 +85,9 @@ class DebianControlParser:
             elif field == 'tag':
                 pkg[field] = self.parse_debtags(self.pkg[field])
 
+            elif field == 'closes':
+                pkg[field] = self.parse_xsv(self.pkg[field], ' ', 'bug')
+
             else:
                 pkg[field] = self.pkg[field]
 
@@ -252,6 +255,12 @@ class DebianControlParser:
         iso8601_date_str = time.strftime('%Y-%m-%dT%H:%M:%S', date) + zone_str
 
         return iso8601_date_str
+
+
+    def parse_xsv(self, xsv_str, sep, element):
+        """Parse a list of X separated values (XSV)."""
+
+        return [{element: v.strip()} for v in xsv_str.split(sep)]
 
 
     def _err(self, error_msg):

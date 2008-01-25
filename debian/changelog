@@ -1,8 +1,8 @@
 dctrl2xml (0.11) unstable; urgency=low
 
-  * 
+  * dctrl2xml: Parse the bug numbers of the Closes field in .changes files.
 
- -- Frank S. Thomas <fst@debian.org>  Thu, 24 Jan 2008 01:41:49 +0100
+ -- Frank S. Thomas <fst@debian.org>  Fri, 25 Jan 2008 14:18:52 +0100
 
 dctrl2xml (0.10) unstable; urgency=low
 
