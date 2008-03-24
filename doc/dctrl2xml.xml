@@ -159,11 +159,11 @@
       <citerefentry>
         <refentrytitle>deb-control</refentrytitle>
         <manvolnum>5</manvolnum>
-       </citerefentry>
-       <!--
-         http://lists.debian.org/debian-mentors/2005/01/msg00058.html
-         http://lists.debian.org/debian-mentors/2006/09/msg00089.html
-       -->
+      </citerefentry>
+      <!--
+        http://lists.debian.org/debian-mentors/2005/01/msg00058.html
+        http://lists.debian.org/debian-mentors/2006/09/msg00089.html
+      -->
     </para>
   </refsect1>
 
