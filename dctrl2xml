@@ -62,7 +62,7 @@ class DebianControlParser:
                 pkg[field] = self.pkg[field]
                 pkg['date_iso8601'] = self.parse_date(self.pkg[field].strip())
 
-            elif field == 'files':
+            elif field in ['files', 'checksums-sha1', 'checksums-sha256']:
                 pkg[field] = self.parse_filelist(self.pkg[field])
 
             elif field == 'conffiles':
@@ -87,6 +87,9 @@ class DebianControlParser:
 
             elif field == 'closes':
                 pkg[field] = self.parse_xsv(self.pkg[field], ' ', 'bug')
+
+            elif field == 'python-version':
+                pkg[field] = self.parse_xsv(self.pkg[field], ',', 'version')
 
             else:
                 pkg[field] = self.pkg[field]
@@ -134,7 +137,8 @@ class DebianControlParser:
                 fields = m.group(1).split()
                 for type, file_re in files_re.iteritems():
                     if re.search(file_re, fields[-1]):
-                        files[type] = {'md5sum': fields[0], 'size': fields[1]}
+                        files[type] = {'checksum': fields[0],
+                            'size': fields[1]}
 
                         if len(fields) == 3:
                             files[type]['filename'] = fields[2]
