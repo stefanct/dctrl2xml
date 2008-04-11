@@ -1,3 +1,9 @@
+dctrl2xml (0.12) UNRELEASED; urgency=low
+
+  * 
+
+ -- Frank S. Thomas <fst@debian.org>  Fri, 11 Apr 2008 16:35:48 +0200
+
 dctrl2xml (0.11) unstable; urgency=low
 
   * dctrl2xml:

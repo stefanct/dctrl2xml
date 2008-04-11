@@ -29,7 +29,7 @@ from debian_bundle import deb822
 from elementtree.ElementTree import Element, SubElement, dump
 
 __author__ = 'Frank S. Thomas'
-__version__ = '0.11'
+__version__ = '0.12'
 
 
 class DebianControlParser:
