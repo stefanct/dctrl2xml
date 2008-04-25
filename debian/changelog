@@ -1,3 +1,9 @@
+dctrl2xml (0.13) UNRELEASED; urgency=low
+
+  * 
+
+ -- Frank S. Thomas <fst@debian.org>  Fri, 25 Apr 2008 15:41:25 +0200
+
 dctrl2xml (0.12) unstable; urgency=low
 
   * Updated dctrl2xml to use ElementTree from Python's standard library,
