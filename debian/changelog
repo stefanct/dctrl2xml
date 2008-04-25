@@ -1,6 +1,12 @@
-dctrl2xml (0.12) UNRELEASED; urgency=low
+dctrl2xml (0.12) unstable; urgency=low
 
-  * 
+  * Updated dctrl2xml to use ElementTree from Python's standard library,
+    because it is part of the standard library since 2.5 and this version
+    is the default Python version in Lenny now:
+    - dctrl2xml: Import functions from xml.etree.cElementTree instead of
+      elementtree.ElementTree.
+    - debian/control: Removed the dependency on python-elementtree.
+    - debian/pyversions: Bumped the required Python version to "2.5-".
 
  -- Frank S. Thomas <fst@debian.org>  Fri, 11 Apr 2008 16:35:48 +0200
 

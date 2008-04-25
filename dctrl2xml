@@ -17,16 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-import re
-import optparse
-import types
-import time
-
 import bz2, gzip, zipfile
+import optparse
+import re
+import sys
+import time
+import types
+
+from xml.etree.cElementTree import Element, SubElement, dump
 
 from debian_bundle import deb822
-from elementtree.ElementTree import Element, SubElement, dump
 
 __author__ = 'Frank S. Thomas'
 __version__ = '0.12'

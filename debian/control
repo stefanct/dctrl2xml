@@ -10,7 +10,7 @@ Vcs-Browser: http://git.debian.org/?p=users/fst/dctrl2xml.git
 
 Package: dctrl2xml
 Architecture: all
-Depends: ${python:Depends}, python-debian, python-elementtree
+Depends: ${python:Depends}, python-debian
 Description: Debian control data to XML converter
  This package contains the dctrl2xml tool that converts Debian control
  data into an XML representation. It can be used to convert data which
