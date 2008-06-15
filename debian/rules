@@ -1,17 +1,15 @@
 #!/usr/bin/make -f
 
-DEB_PYTHON_SYSTEM = pysupport
-
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/python-distutils.mk
-
-DEB_INSTALL_MANPAGES_dctrl2xml := doc/dctrl2xml.1
-
-build/dctrl2xml::
+build:
 	$(MAKE) -C doc
+	dh build
 
-clean::
+clean:
 	$(MAKE) -C doc clean
+	dh clean
+
+%:
+	dh $@
 
 test:
 	ERRF=`mktemp`; \
@@ -19,4 +17,4 @@ test:
 	apt-cache dumpavail | ./dctrl2xml 2> $$ERRF | xmllint --format -; \
 	cat $$ERRF
 
-DEB_PHONY_RULES += test
+.PHONY: test

@@ -1,8 +1,9 @@
-dctrl2xml (0.13) UNRELEASED; urgency=low
+dctrl2xml (0.13) unstable; urgency=low
 
-  * 
+  * Switched from CDBS to debhelper 7.
+  * Bumped Standards-Version from 3.7.3 to 3.8.0, no changes required.
 
- -- Frank S. Thomas <fst@debian.org>  Fri, 25 Apr 2008 15:41:25 +0200
+ -- Frank S. Thomas <fst@debian.org>  Sun, 15 Jun 2008 10:08:39 +0200
 
 dctrl2xml (0.12) unstable; urgency=low
 
