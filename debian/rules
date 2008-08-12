@@ -1,12 +1,12 @@
 #!/usr/bin/make -f
 
 build:
-	$(MAKE) -C doc
 	dh build
+	$(MAKE) -C doc
 
 clean:
-	$(MAKE) -C doc clean
 	dh clean
+	$(MAKE) -C doc clean
 
 %:
 	dh $@
@@ -17,4 +17,4 @@ test:
 	apt-cache dumpavail | ./dctrl2xml 2> $$ERRF | xmllint --format -; \
 	cat $$ERRF
 
-.PHONY: test
+.PHONY: build clean test
