@@ -1,6 +1,6 @@
 dctrl2xml (0.14) UNRELEASED; urgency=low
 
-  * 
+  * debian/control: Added ${misc:Depends} to Depends to appease Lintian.
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 15 Jun 2008 12:05:37 +0200
 
