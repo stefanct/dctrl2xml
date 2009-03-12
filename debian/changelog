@@ -1,10 +1,10 @@
-dctrl2xml (0.14) UNRELEASED; urgency=low
+dctrl2xml (0.14) unstable; urgency=low
 
   * debian/control:
     - Added ${misc:Depends} to Depends to appease Lintian.
     - Bumped Standards-Version from 3.8.0 to 3.8.1, no changes required.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 15 Jun 2008 12:05:37 +0200
+ -- Frank S. Thomas <fst@debian.org>  Thu, 12 Mar 2009 11:07:43 +0100
 
 dctrl2xml (0.13) unstable; urgency=low
 
