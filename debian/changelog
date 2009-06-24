@@ -1,6 +1,7 @@
 dctrl2xml (0.15) UNRELEASED; urgency=low
 
-  * 
+  * Bumped Standards-Version from 3.8.1 to 3.8.2, no changes required.
+  * Adapted debian/copyright to DEP5.
 
  -- Frank S. Thomas <fst@debian.org>  Thu, 12 Mar 2009 11:18:13 +0100
 
