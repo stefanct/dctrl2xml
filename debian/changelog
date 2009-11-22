@@ -1,11 +1,11 @@
-dctrl2xml (0.15) UNRELEASED; urgency=low
+dctrl2xml (0.15) unstable; urgency=low
 
-  * Bumped Standards-Version from 3.8.1 to 3.8.2, no changes required.
+  * Bumped Standards-Version from 3.8.1 to 3.8.3, no changes required.
   * Adapted debian/copyright to DEP5.
   * dctrl2xml: Improved code with Pylint's help.
   * Switched to source format "3.0 (native)".
 
- -- Frank S. Thomas <fst@debian.org>  Thu, 12 Mar 2009 11:18:13 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 22 Nov 2009 01:54:17 +0100
 
 dctrl2xml (0.14) unstable; urgency=low
 
