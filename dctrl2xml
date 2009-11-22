@@ -24,7 +24,7 @@ import sys
 import time
 import types
 
-from xml.etree.cElementTree import Element, SubElement, dump
+from xml.etree.cElementTree import Element, dump
 
 from debian_bundle import deb822
 
@@ -35,6 +35,7 @@ __version__ = '0.15'
 class DebianControlParser:
 
     def __init__(self):
+        self.pkg = {}
         self.contacts = ['changed-by', 'maintainer', 'uploaders']
         self.relations = ['breaks', 'build-conflicts', 'build-conflicts-indep',
             'build-depends', 'build-depends-indep', 'conflicts', 'depends',
@@ -69,10 +70,10 @@ class DebianControlParser:
                 pkg[field] = self.parse_conffilelist(self.pkg[field])
 
             elif field == 'description':
-                m = re.search(r'\n', self.pkg[field])
-                if m:
-                    synopsis = self.pkg[field][:m.start()].strip()
-                    extended = self.pkg[field][m.end():]
+                m_newline = re.search(r'\n', self.pkg[field])
+                if m_newline:
+                    synopsis = self.pkg[field][:m_newline.start()].strip()
+                    extended = self.pkg[field][m_newline.end():]
 
                     if len(synopsis) == 0:
                         pkg[field] = extended
@@ -102,23 +103,23 @@ class DebianControlParser:
         """Parse data of the Maintainer, Uploaders, and Changed-By fields."""
 
         split_re = r'\s*((.+?)\s+?<(.+?)>,?|(.+?)\s+?\((.+?)\),?)'
-        s = re.split(split_re, contacts_str)
+        s_cons = re.split(split_re, contacts_str)
 
-        if len(s) < 6:
+        if len(s_cons) < 6:
             self._err('E: could not parse contact: ' + contacts_str)
             return contacts_str
 
         contacts = []
 
-        for contact in [s[x:x+6] for x in range(0, len(s), 6)]:
+        for contact in [s_cons[x:x+6] for x in range(0, len(s_cons), 6)]:
             if len(contact) != 6:
                 continue
             elif contact[2] and contact[3]:
-                c = {'name': contact[2], 'email': contact[3]}
+                c_dict = {'name': contact[2], 'email': contact[3]}
             elif contact[5] and contact[4]:
-                c = {'name': contact[5], 'email': contact[4]}
+                c_dict = {'name': contact[5], 'email': contact[4]}
 
-            contacts.append({'contact': c})
+            contacts.append({'contact': c_dict})
 
         return contacts
 
@@ -132,20 +133,20 @@ class DebianControlParser:
             'tarball': r'.*\.tar\.(gz|bz2|lzma)'}
 
         for line in files_str.split('\n'):
-            m = re.match(r'^\s*([\da-f]{32}.*)', line)
-            if m:
-                fields = m.group(1).split()
-                for type, file_re in files_re.iteritems():
+            m_file = re.match(r'^\s*([\da-f]{32}.*)', line)
+            if m_file:
+                fields = m_file.group(1).split()
+                for ftype, file_re in files_re.iteritems():
                     if re.search(file_re, fields[-1]):
-                        files[type] = {'checksum': fields[0],
-                            'size': fields[1]}
+                        files[ftype] = {'checksum': fields[0],
+                                        'size': fields[1]}
 
                         if len(fields) == 3:
-                            files[type]['filename'] = fields[2]
+                            files[ftype]['filename'] = fields[2]
                         elif len(fields) == 5:
-                            files[type]['section'] = fields[2]
-                            files[type]['priority'] = fields[3]
-                            files[type]['filename'] = fields[4]
+                            files[ftype]['section'] = fields[2]
+                            files[ftype]['priority'] = fields[3]
+                            files[ftype]['filename'] = fields[4]
 
             elif line.strip():
                 self._err('E: could not parse File line: ' + line)
@@ -159,10 +160,11 @@ class DebianControlParser:
         conffiles = []
 
         for line in conffiles_str.split('\n'):
-            m = re.match(r'^\s*(.+)\s+([\da-f]{32})', line)
-            if m:
-                cf = {'conffile': {'name': m.group(1), 'md5sum': m.group(2)}}
-                conffiles.append(cf)
+            m_cfile = re.match(r'^\s*(.+)\s+([\da-f]{32})', line)
+            if m_cfile:
+                cfile = {'conffile': {'name': m_cfile.group(1),
+                                      'md5sum': m_cfile.group(2)}}
+                conffiles.append(cfile)
             elif line.strip():
                 self._err('E: could not parse Conffiles line: ' + line)
 
@@ -185,18 +187,19 @@ class DebianControlParser:
 
     def parse_relation(self, relation_str):
         relation = {}
-        relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{1,2})\s*(.*)\s*\))?\s*(\[(.*)\])?'
+        relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{1,2})\s*(.*)\s*\))?' \
+                      '\s*(\[(.*)\])?'
 
-        match = re.match(relation_re, relation_str.strip())
-        if match:
-            if match.group(1):
-                relation['name'] = match.group(1)
-            if match.group(2):
-                relation['relation'] = match.group(3)
-                relation['version'] = match.group(4)
+        m_rel = re.match(relation_re, relation_str.strip())
+        if m_rel:
+            if m_rel.group(1):
+                relation['name'] = m_rel.group(1)
+            if m_rel.group(2):
+                relation['relation'] = m_rel.group(3)
+                relation['version'] = m_rel.group(4)
 
-            if match.group(6):
-                archs = match.group(6).split()
+            if m_rel.group(6):
+                archs = m_rel.group(6).split()
                 arch_list = []
                 not_arch_list = []
 
@@ -275,6 +278,9 @@ class DebianControlParser:
 
 
 class DebianControl2XMLConverter:
+
+    def __init__(self):
+        pass
 
     def create_xml_tree(self, pkg):
         node = Element('package')
@@ -366,7 +372,7 @@ def parse_options():
         dest='filename', default='', metavar='FILE',
         help='read control data from file FILE instead of stdin')
 
-    (opts, args) = parser.parse_args()
+    opts = parser.parse_args()[0]
     return opts
 
 
