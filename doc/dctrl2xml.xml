@@ -140,7 +140,7 @@
           <userinput>apt-cache showsrc hello | dctrl2xml | xmllint
             --format -</userinput></term>
         <listitem>
-          <para>This is similiar to the above example, except that the
+          <para>This is similar to the above example, except that the
             <citerefentry>
               <refentrytitle>xmllint</refentrytitle>
               <manvolnum>1</manvolnum>
