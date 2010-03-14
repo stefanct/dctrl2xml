@@ -1,4 +1,4 @@
-dctrl2xml (0.16) UNRELEASED; urgency=low
+dctrl2xml (0.16) unstable; urgency=low
 
   * Fixed typo in doc/dctrl2xml.xml ("similiar" -> "similar").
   * dctrl2xml: Added {XSBC-,}Original-Maintainer to the list of fields that
@@ -8,7 +8,7 @@ dctrl2xml (0.16) UNRELEASED; urgency=low
     - Replaced the python-dev build dependency by python as suggested by
       Lintian.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 22 Nov 2009 02:02:13 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 14 Mar 2010 13:17:46 +0100
 
 dctrl2xml (0.15) unstable; urgency=low
 
