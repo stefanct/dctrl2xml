@@ -5,6 +5,8 @@ dctrl2xml (0.16) UNRELEASED; urgency=low
     contain contact information.
   * debian/control:
     - Bumped Standards-Version from 3.8.3 to 3.8.4, no changes required.
+    - Replaced the python-dev build dependency by python as suggested by
+      Lintian.
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 22 Nov 2009 02:02:13 +0100
 
