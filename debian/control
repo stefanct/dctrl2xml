@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Frank S. Thomas <fst@debian.org>
 Build-Depends: debhelper (>= 7), python-dev (>= 2.3.5-11)
 Build-Depends-Indep: python-support (>= 0.5.3), docbook2x, docbook-xml
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Vcs-Git: git://git.debian.org/git/users/fst/dctrl2xml.git
 Vcs-Browser: http://git.debian.org/?p=users/fst/dctrl2xml.git
 
