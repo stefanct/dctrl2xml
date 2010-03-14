@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # dctrl2xml - Debian control data to XML converter
-# Copyright © 2005-2009 by Frank S. Thomas <fst@debian.org>
+# Copyright © 2005-2010 by Frank S. Thomas <fst@debian.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,8 @@ class DebianControlParser:
 
     def __init__(self):
         self.pkg = {}
-        self.contacts = ['changed-by', 'maintainer', 'uploaders']
+        self.contacts = ['changed-by', 'maintainer', 'uploaders',
+            'xsbc-original-maintainer', 'original-maintainer']
         self.relations = ['breaks', 'build-conflicts', 'build-conflicts-indep',
             'build-depends', 'build-depends-indep', 'conflicts', 'depends',
             'enhances', 'pre-depends', 'provides', 'recommends', 'replaces',

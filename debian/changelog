@@ -1,6 +1,8 @@
 dctrl2xml (0.16) UNRELEASED; urgency=low
 
   * Fixed typo in doc/dctrl2xml.xml ("similiar" -> "similar").
+  * dctrl2xml: Added {XSBC-,}Original-Maintainer to the list of fields that
+    contain contact information.
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 22 Nov 2009 02:02:13 +0100
 
