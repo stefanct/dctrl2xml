@@ -1,3 +1,9 @@
+dctrl2xml (0.17) UNRELEASED; urgency=low
+
+  * 
+
+ -- Frank S. Thomas <fst@debian.org>  Sun, 14 Mar 2010 13:52:43 +0100
+
 dctrl2xml (0.16) unstable; urgency=low
 
   * Fixed typo in doc/dctrl2xml.xml ("similiar" -> "similar").
