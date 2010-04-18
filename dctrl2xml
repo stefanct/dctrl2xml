@@ -26,7 +26,7 @@ import types
 
 from xml.etree.cElementTree import Element, dump
 
-from debian_bundle import deb822
+from debian import deb822
 
 __author__ = 'Frank S. Thomas'
 __version__ = '0.17'
@@ -294,15 +294,15 @@ class DebianControl2XMLConverter:
     def create_node(self, name, value):
         node = Element(name)
 
-        if type(value) is types.StringType:
+        if isinstance(value, types.StringTypes):
             node.text = value
 
-        elif type(value) is types.DictType:
+        elif isinstance(value, dict):
             for new_name in value:
                 child = self.create_node(new_name, value[new_name])
                 node.append(child)
 
-        elif type(value) is types.ListType:
+        elif isinstance(value, list):
             for item in value:
                 for new_name, new_value in item.iteritems():
                     child = self.create_node(new_name, new_value)

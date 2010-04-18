@@ -1,8 +1,14 @@
-dctrl2xml (0.17) UNRELEASED; urgency=low
+dctrl2xml (0.17) unstable; urgency=low
 
-  * 
+  * dctrl2xml:
+    - Node texts can be any string objects (str or unicode), so check for
+      types.StringTypes because it contains StringType and UnicodeType.
+    - Use list and dict instead of types.ListType and types.DictType since
+      the Python documentation says this is preferred over using the types
+      module.
+    - Use package 'debian' instead of the deprecated 'debian_bundle'.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 14 Mar 2010 13:52:43 +0100
+ -- Frank S. Thomas <fst@debian.org>  Sun, 18 Apr 2010 10:15:38 +0200
 
 dctrl2xml (0.16) unstable; urgency=low
 
