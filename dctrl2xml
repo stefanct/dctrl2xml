@@ -29,7 +29,7 @@ from xml.etree.cElementTree import Element, dump
 from debian import deb822
 
 __author__ = 'Frank S. Thomas'
-__version__ = '0.17'
+__version__ = '0.18'
 
 
 class DebianControlParser:
