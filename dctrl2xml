@@ -37,7 +37,7 @@ class DebianControlParser:
     def __init__(self):
         self.pkg = {}
         self.contacts = ['changed-by', 'maintainer', 'uploaders',
-            'xsbc-original-maintainer', 'original-maintainer']
+            'xsbc-original-maintainer', 'original-maintainer', 'drivers']
         self.relations = ['breaks', 'build-conflicts', 'build-conflicts-indep',
             'build-depends', 'build-depends-indep', 'conflicts', 'depends',
             'enhances', 'pre-depends', 'provides', 'recommends', 'replaces',

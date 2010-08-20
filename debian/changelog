@@ -1,6 +1,8 @@
 dctrl2xml (0.18) UNRELEASED; urgency=low
 
-  * 
+  * dctrl2xml:
+    - Added "Drivers" to the list of fields that contain contact information.
+      This field is used in Debian Enhancement Proposals (DEPs).
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 18 Apr 2010 11:28:07 +0200
 
