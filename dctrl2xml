@@ -173,6 +173,8 @@ class DebianControlParser:
 
 
     def parse_relations(self, relations_str):
+        """Parse a comma separated list of package relations."""
+
         relations_list = []
 
         for relation in relations_str.split(','):
@@ -187,6 +189,8 @@ class DebianControlParser:
 
 
     def parse_relation(self, relation_str):
+        """Parse a single package relation string."""
+
         relation = {}
         relation_re = r'([\w+-.]*)\s*(\(\s*([<>=]{1,2})\s*(.*)\s*\))?' \
                       '\s*(\[(.*)\])?'
