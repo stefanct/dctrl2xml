@@ -254,19 +254,23 @@ class DebianControlParser:
         return debtags
 
 
-    def parse_date(self, rfc2822_date_str):
-        """Convert a RFC 2822 date to its representation in ISO 8601."""
+    def parse_date(self, date_str):
+        """Convert an arbitrary formatted date into its ISO 8601
+           representation."""
 
-        date_str = rfc2822_date_str[:25]
-        if rfc2822_date_str.endswith('UTC'):
-            zone_str = 'Z'
+        re_rfc2822 = r'\w+,\s+\d{1,2}\s+\w+\s+\d{4}\s+\d{2}:\d{2}:\d{2}'
+
+        if re.match(re_rfc2822, date_str):
+            bare_date_str = date_str[:25]
+            if date_str.endswith('UTC'):
+                zone_str = 'Z'
+            else:
+                zone_str = date_str[-5:]
+
+            date = time.strptime(bare_date_str, '%a, %d %b %Y %H:%M:%S')
+            return time.strftime('%Y-%m-%dT%H:%M:%S', date) + zone_str
         else:
-            zone_str = rfc2822_date_str[-5:]
-
-        date = time.strptime(date_str, '%a, %d %b %Y %H:%M:%S')
-        iso8601_date_str = time.strftime('%Y-%m-%dT%H:%M:%S', date) + zone_str
-
-        return iso8601_date_str
+            return date_str
 
 
     def parse_xsv(self, xsv_str, sep, element):
