@@ -5,6 +5,8 @@ dctrl2xml (0.18) UNRELEASED; urgency=low
       This field is used in Debian Enhancement Proposals (DEPs).
     - Changed parse_date() to not fail on non RFC 2822 formatted dates.
   * Bumped Standards-Version from 3.8.4 to 3.9.1, no changes required.
+  * Added test suite that compares previous, saved conversions with
+    temporary conversions which are made with the current dctrl2xml.
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 18 Apr 2010 11:28:07 +0200
 

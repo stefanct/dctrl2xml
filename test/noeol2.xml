@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages generator="dctrl2xml">
+  <package>
+    <test>1</test>
+  </package>
+  <package>
+    <test>2</test>
+  </package>
+  <package>
+    <test>3</test>
+  </package>
+</packages>

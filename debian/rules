@@ -3,18 +3,14 @@
 build:
 	dh build
 	$(MAKE) -C doc
+	$(MAKE) -C test
 
 clean:
 	dh clean
-	$(MAKE) -C doc clean
+	$(MAKE) -C doc  clean
+	$(MAKE) -C test clean
 
 %:
 	dh $@
 
-test:
-	ERRF=`mktemp`; \
-	./dctrl2xml -f /var/lib/dpkg/available 2> $$ERRF | xmllint --format -; \
-	apt-cache dumpavail | ./dctrl2xml 2> $$ERRF | xmllint --format -; \
-	cat $$ERRF
-
-.PHONY: build clean test
+.PHONY: build clean
