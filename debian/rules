@@ -3,12 +3,10 @@
 build:
 	dh build
 	$(MAKE) -C doc
-	$(MAKE) -C test
 
 clean:
 	dh clean
 	$(MAKE) -C doc  clean
-	$(MAKE) -C test clean
 
 %:
 	dh $@
