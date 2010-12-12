@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"file:///usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"file:///usr/share/xml/docbook/schema/dtd/4.5/docbookx.dtd" [
 
   <!ENTITY dhfirstname "<firstname>Frank</firstname>">
   <!ENTITY dhsurname   "<surname>Thomas</surname>">
@@ -8,7 +8,7 @@
   <!ENTITY dhemail     "<email>fst@debian.org</email>">
   <!ENTITY dhpackage   "dctrl2xml">
   <!ENTITY dhcommand   "<command>dctrl2xml</command>">
-  <!ENTITY dhdate      "<date>22 January 2008</date>">
+  <!ENTITY dhdate      "<date>20 August 2010</date>">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
@@ -20,7 +20,7 @@
   This file is licensed under the terms of the GNU General Public License,
   Version 3 or any later version published by the Free Software Foundation.
 
-  Copyright © 2005, 2007-2008 Frank S. Thomas <fst@debian.org>
+  Copyright © 2005, 2007-2008, 2010 Frank S. Thomas <fst@debian.org>
 -->
 
 <refentry>
@@ -36,6 +36,7 @@
       <year>2005</year>
       <year>2007</year>
       <year>2008</year>
+      <year>2010</year>
       <holder>&dhusername;</holder>
     </copyright>
     &dhdate;
@@ -55,8 +56,11 @@
     <cmdsynopsis>
       &dhcommand;
       <group>
+        <arg>-x</arg>
+        <arg>-j</arg>
+      </group>
+      <group>
         <arg>-f <replaceable>FILE</replaceable></arg>
-        <arg/>
       </group>
     </cmdsynopsis>
   </refsynopsisdiv>
@@ -104,6 +108,20 @@
             a gzip, bzip2 or ZIP file.</para>
         </listitem>
       </varlistentry>
+
+      <varlistentry>
+        <term><option>-x</option>, <option>--xml</option></term>
+        <listitem>
+          <para>Output Debian control data as XML (default).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-j</option>, <option>--json</option></term>
+        <listitem>
+          <para>Output Debian control data as JSON.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
   </refsect1>
 
@@ -138,7 +156,8 @@
       <varlistentry>
         <term>
           <userinput>apt-cache showsrc hello | dctrl2xml | xmllint
-            --format -</userinput></term>
+            --format -</userinput>
+        </term>
         <listitem>
           <para>This is similar to the above example, except that the
             <citerefentry>
@@ -148,6 +167,15 @@
             package) is used to reformat and reindent &dhcommand;'s output to
             make it more human readable and that the source package records of
             the hello package are used.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <userinput>apt-cache showsrc hello | dctrl2xml -j</userinput>
+        </term>
+        <listitem>
+          <para>In this example hello's source package record is printed as
+            JSON instead of XML.</para>
         </listitem>
       </varlistentry>
     </variablelist>

@@ -1,6 +1,7 @@
-dctrl2xml (0.18) UNRELEASED; urgency=low
+dctrl2xml (0.18) unstable; urgency=low
 
   * dctrl2xml:
+    - Added option to output control data as JSON instead of XML.
     - Added "Drivers" to the list of fields that contain contact information.
       This field is used in Debian Enhancement Proposals (DEPs).
     - Changed parse_date() to not fail on non RFC 2822 formatted dates.
@@ -8,7 +9,7 @@ dctrl2xml (0.18) UNRELEASED; urgency=low
   * Added test suite that compares previous, saved conversions with
     temporary conversions which are made with the current dctrl2xml.
 
- -- Frank S. Thomas <fst@debian.org>  Sun, 18 Apr 2010 11:28:07 +0200
+ -- Frank S. Thomas <fst@debian.org>  Sun, 12 Dec 2010 12:27:38 +0100
 
 dctrl2xml (0.17) unstable; urgency=low
 

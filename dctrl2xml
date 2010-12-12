@@ -18,13 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import bz2, gzip, zipfile
+import json
 import optparse
 import re
 import sys
 import time
 import types
 
-from xml.etree.cElementTree import Element, dump
+from xml.etree.cElementTree import Element, tostring
 
 from debian import deb822
 
@@ -286,20 +287,47 @@ class DebianControlParser:
         return
 
 
-class DebianControl2XMLConverter:
+class JSONStringifier:
 
     def __init__(self):
         pass
 
-    def create_xml_tree(self, pkg):
+    def header(self):
+        return '[\n'
+
+    def footer(self):
+        return '\n]\n'
+
+    def separator(self):
+        return ',\n'
+
+    def package(self, pkg):
+        return json.dumps(pkg, indent=2, sort_keys=True)
+
+
+class XMLStringifier:
+
+    def __init__(self):
+        pass
+
+    def header(self):
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' \
+               '<packages generator="dctrl2xml/' + __version__ + '">\n'
+
+    def footer(self):
+        return '</packages>\n'
+
+    def separator(self):
+        return ''
+
+    def package(self, pkg):
         node = Element('package')
         for name, value in pkg.iteritems():
-            node.append(self.create_node(name, value))
+            node.append(self._create_node(name, value))
 
-        return node
+        return tostring(node) + '\n'
 
-
-    def create_node(self, name, value):
+    def _create_node(self, name, value):
         node = Element(name)
 
         if isinstance(value, types.StringTypes):
@@ -307,13 +335,13 @@ class DebianControl2XMLConverter:
 
         elif isinstance(value, dict):
             for new_name in value:
-                child = self.create_node(new_name, value[new_name])
+                child = self._create_node(new_name, value[new_name])
                 node.append(child)
 
         elif isinstance(value, list):
             for item in value:
                 for new_name, new_value in item.iteritems():
-                    child = self.create_node(new_name, new_value)
+                    child = self._create_node(new_name, new_value)
                     node.append(child)
 
         return node
@@ -321,30 +349,49 @@ class DebianControl2XMLConverter:
 
 def main():
     opts = parse_options()
-    file_obj = get_file_obj(opts.filename)
+
+    fobj_in  = get_file_obj(opts.filename)
+    fobj_out = sys.stdout
+
+    stringifier = {
+        'JSON': JSONStringifier,
+        'XML':  XMLStringifier
+    }[opts.format]()
 
     parser = DebianControlParser()
-    converter = DebianControl2XMLConverter()
-    print_xml = lambda data: dump(converter.create_xml_tree(
-        parser.parse_package_string(data)))
+    stringify_package = lambda data: stringifier.package(
+        parser.parse_package_string(data))
 
-    print '<?xml version="1.0" encoding="UTF-8"?>'
-    print '<packages generator="dctrl2xml/' + __version__ + '">'
+
+    fobj_out.write(stringifier.header())
 
     data = ''
-    for line in file_obj.readlines():
+    for line in fobj_in:
+        data += line
+        if line.isspace():
+            break
+
+    if data.strip():
+        fobj_out.write(stringify_package(data))
+
+    data = ''
+    for line in fobj_in:
         data += line
         if line.isspace():
             if data.strip():
-                print_xml(data)
+                fobj_out.write(
+                    stringifier.separator() +
+                    stringify_package(data))
             data = ''
 
-    # Do not discard the last (or the only) control entry
-    # if data input does not end with an empty line.
     if data.strip():
-        print_xml(data)
- 
-    print '</packages>'
+        fobj_out.write(
+            stringifier.separator() +
+            stringify_package(data))
+
+    fobj_out.write(stringifier.footer())
+    fobj_in.close()
+
     return
 
 
@@ -380,6 +427,14 @@ def parse_options():
     parser.add_option('-f', '--file',
         dest='filename', default='', metavar='FILE',
         help='read control data from file FILE instead of stdin')
+
+    parser.add_option('-x', '--xml', action='store_const',
+        dest='format', const='XML', default='XML',
+        help='use XML  as output format (default)')
+
+    parser.add_option('-j', '--json', action='store_const',
+        dest='format', const='JSON',
+        help='use JSON as output format')
 
     opts = parser.parse_args()[0]
     return opts
