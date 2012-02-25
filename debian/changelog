@@ -1,6 +1,6 @@
 dctrl2xml (0.19) UNRELEASED; urgency=low
 
-  * 
+  * Bumped Standards-Version from 3.9.1 to 3.9.3, no changes required.
 
  -- Frank S. Thomas <fst@debian.org>  Sun, 12 Dec 2010 13:21:13 +0100
 
