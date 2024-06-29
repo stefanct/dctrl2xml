@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # dctrl2xml - Debian control data to XML converter
@@ -17,6 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from builtins import str
+from builtins import range
+from builtins import object
 import bz2, gzip, zipfile
 import json
 import optparse
@@ -33,7 +36,7 @@ __author__ = 'Frank S. Thomas'
 __version__ = '0.19'
 
 
-class DebianControlParser:
+class DebianControlParser(object):
 
     def __init__(self):
         self.pkg = {}
@@ -138,7 +141,7 @@ class DebianControlParser:
             m_file = re.match(r'^\s*([\da-f]{32}.*)', line)
             if m_file:
                 fields = m_file.group(1).split()
-                for ftype, file_re in files_re.iteritems():
+                for ftype, file_re in files_re.items():
                     if re.search(file_re, fields[-1]):
                         files[ftype] = {'checksum': fields[0],
                                         'size': fields[1]}
@@ -241,7 +244,7 @@ class DebianControlParser:
             tag = tag.replace(':', '-').replace('+', 'p')
             tag = re.sub(r'(^|\W)(\d)', '\g<1>_\g<2>', tag)
 
-            if not debtags.has_key(facet):
+            if facet not in debtags:
                 debtags[facet] = []
 
             # Handle compressed tags, such as "use::{configuring,monitor}".
@@ -283,11 +286,11 @@ class DebianControlParser:
     def _err(self, error_msg):
         """Print an error message to standard error."""
 
-        print >> sys.stderr, error_msg
+        print(error_msg, file=sys.stderr)
         return
 
 
-class JSONStringifier:
+class JSONStringifier(object):
 
     def __init__(self):
         pass
@@ -305,7 +308,7 @@ class JSONStringifier:
         return json.dumps(pkg, indent=2, sort_keys=True)
 
 
-class XMLStringifier:
+class XMLStringifier(object):
 
     def __init__(self):
         pass
@@ -322,15 +325,15 @@ class XMLStringifier:
 
     def package(self, pkg):
         node = Element('package')
-        for name, value in pkg.iteritems():
+        for name, value in pkg.items():
             node.append(self._create_node(name, value))
 
-        return tostring(node) + '\n'
+        return tostring(node, encoding='unicode') + '\n'
 
     def _create_node(self, name, value):
         node = Element(name)
 
-        if isinstance(value, types.StringTypes):
+        if isinstance(value, (str,)):
             node.text = value
 
         elif isinstance(value, dict):
@@ -340,7 +343,7 @@ class XMLStringifier:
 
         elif isinstance(value, list):
             for item in value:
-                for new_name, new_value in item.iteritems():
+                for new_name, new_value in item.items():
                     child = self._create_node(new_name, new_value)
                     node.append(child)
 
@@ -403,18 +406,16 @@ def get_file_obj(filename):
     else:
         extension = filename.split('.')[-1]
         if extension == 'gz':
-            file_obj = gzip.GzipFile
+            file_obj = gzip.open
         elif extension == 'bz2':
-            file_obj = bz2.BZ2File
-        elif zipfile.is_zipfile(filename):
-            file_obj = zipfile.ZipFile
+            file_obj = bz2.open
         else:
-            file_obj = file
+            file_obj = open
 
         try:
-            file_obj = file_obj(filename, 'r')
-        except IOError, error:
-            print >> sys.stderr, error.__str__()
+            file_obj = file_obj(filename, "rt", encoding="utf8")
+        except IOError as error:
+            print(error.__str__(), file=sys.stderr)
             sys.exit(error.args[0])
 
     return file_obj

@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages generator="dctrl2xml">
   <package>
-    <files>
-      <tarball>
-        <checksum>09d59571e47818531443981d2ae78bae</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
-        <size>6491</size>
-      </tarball>
-      <deb>
-        <checksum>09d59571e47818531443981d2ae78bae</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
-        <size>6491</size>
-      </deb>
-      <dsc>
-        <checksum>96cf26a4802ca4ceb70361d96ab44195</checksum>
-        <filename>hello_2.6-1.dsc</filename>
-        <size>1246</size>
-      </dsc>
-    </files>
+    <name>hello</name>
     <binary>hello</binary>
+    <version>2.6-1</version>
+    <priority>optional</priority>
+    <section>devel</section>
     <maintainer>
       <contact>
         <name>Santiago Vila</name>
         <email>sanvila@debian.org</email>
       </contact>
     </maintainer>
-    <name>hello</name>
+    <architecture>any</architecture>
+    <standards-version>3.9.1</standards-version>
     <format>3.0 (quilt)</format>
-    <checksums-sha256>
+    <directory>pool/main/h/hello</directory>
+    <files>
+      <dsc>
+        <checksum>96cf26a4802ca4ceb70361d96ab44195</checksum>
+        <size>1246</size>
+        <filename>hello_2.6-1.dsc</filename>
+      </dsc>
       <tarball>
-        <checksum>968b057c26016bfe321ad9836bee6a6670b36d56be413b83dc53e68788009245</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
+        <checksum>09d59571e47818531443981d2ae78bae</checksum>
         <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
       </tarball>
       <deb>
-        <checksum>968b057c26016bfe321ad9836bee6a6670b36d56be413b83dc53e68788009245</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
+        <checksum>09d59571e47818531443981d2ae78bae</checksum>
         <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
       </deb>
-    </checksums-sha256>
-    <section>devel</section>
-    <priority>optional</priority>
+    </files>
+    <homepage>http://www.gnu.org/software/hello/</homepage>
     <checksums-sha1>
       <tarball>
         <checksum>3efd65709e6d2d08ebaa1e5f56898171fc33ea1d</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
         <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
       </tarball>
       <deb>
         <checksum>3efd65709e6d2d08ebaa1e5f56898171fc33ea1d</checksum>
-        <filename>hello_2.6-1.debian.tar.gz</filename>
         <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
       </deb>
     </checksums-sha1>
-    <version>2.6-1</version>
-    <standards-version>3.9.1</standards-version>
-    <architecture>any</architecture>
-    <directory>pool/main/h/hello</directory>
-    <homepage>http://www.gnu.org/software/hello/</homepage>
+    <checksums-sha256>
+      <tarball>
+        <checksum>968b057c26016bfe321ad9836bee6a6670b36d56be413b83dc53e68788009245</checksum>
+        <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
+      </tarball>
+      <deb>
+        <checksum>968b057c26016bfe321ad9836bee6a6670b36d56be413b83dc53e68788009245</checksum>
+        <size>6491</size>
+        <filename>hello_2.6-1.debian.tar.gz</filename>
+      </deb>
+    </checksums-sha256>
   </package>
 </packages>

@@ -1,23 +1,23 @@
 [
 {
-  "architecture": "amd64", 
+  "architecture": "amd64",
   "depends": [
     {
       "package": {
-        "name": "libc6", 
-        "relation": ">=", 
+        "name": "libc6",
+        "relation": ">=",
         "version": "2.3"
       }
-    }, 
+    },
     {
       "alternative": [
         {
           "package": {
-            "name": "dpkg", 
-            "relation": ">=", 
+            "name": "dpkg",
+            "relation": ">=",
             "version": "1.15.4"
           }
-        }, 
+        },
         {
           "package": {
             "name": "install-info"
@@ -25,60 +25,60 @@
         }
       ]
     }
-  ], 
-  "description": "The classic greeting, and a good example", 
-  "filename": "pool/main/h/hello/hello_2.6-1_amd64.deb", 
-  "homepage": "http://www.gnu.org/software/hello/", 
-  "installed-size": "652", 
-  "long-description": " The GNU hello program produces a familiar, friendly greeting.  It\n allows non-programmers to use a classic computer science tool which\n would otherwise be unavailable to them.\n .\n Seriously, though: this is an example of how to do a Debian package.\n It is the Debian version of the GNU Project's `hello world' program\n (which is itself an example for the GNU Project).", 
+  ],
+  "description": "The classic greeting, and a good example",
+  "filename": "pool/main/h/hello/hello_2.6-1_amd64.deb",
+  "homepage": "http://www.gnu.org/software/hello/",
+  "installed-size": "652",
+  "long-description": " The GNU hello program produces a familiar, friendly greeting.  It\n allows non-programmers to use a classic computer science tool which\n would otherwise be unavailable to them.\n .\n Seriously, though: this is an example of how to do a Debian package.\n It is the Debian version of the GNU Project's `hello world' program\n (which is itself an example for the GNU Project).",
   "maintainer": [
     {
       "contact": {
-        "email": "sanvila@debian.org", 
+        "email": "sanvila@debian.org",
         "name": "Santiago Vila"
       }
     }
-  ], 
-  "md5sum": "91ebd78d3d67958a9a3fa502aaa2309b", 
-  "name": "hello", 
-  "priority": "optional", 
-  "section": "devel", 
-  "sha1": "c3b4e00ed268375edf74cdfe4125768bccf75a41", 
-  "sha256": "60d9cfa89713dba79da21c955f745e6ecec0926c9b37cf974698cb76fbcf44af", 
-  "size": "59724", 
+  ],
+  "md5sum": "91ebd78d3d67958a9a3fa502aaa2309b",
+  "name": "hello",
+  "priority": "optional",
+  "section": "devel",
+  "sha1": "c3b4e00ed268375edf74cdfe4125768bccf75a41",
+  "sha256": "60d9cfa89713dba79da21c955f745e6ecec0926c9b37cf974698cb76fbcf44af",
+  "size": "59724",
   "tag": {
     "devel": [
       {
         "examples": ""
-      }, 
+      },
       {
         "packaging": ""
       }
-    ], 
+    ],
     "interface": [
       {
         "commandline": ""
       }
-    ], 
+    ],
     "role": [
       {
         "program": ""
       }
-    ], 
+    ],
     "scope": [
       {
         "utility": ""
       }
-    ], 
+    ],
     "suite": [
       {
         "debian": ""
-      }, 
+      },
       {
         "gnu": ""
       }
     ]
-  }, 
+  },
   "version": "2.6-1"
 }
 ]
